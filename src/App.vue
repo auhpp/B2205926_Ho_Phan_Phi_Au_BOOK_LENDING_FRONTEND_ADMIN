@@ -1,7 +1,7 @@
-<script>
-export default {};
-</script>
 <template>
-  <h1>Hello, Vue.js!</h1>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
+
 <style></style>

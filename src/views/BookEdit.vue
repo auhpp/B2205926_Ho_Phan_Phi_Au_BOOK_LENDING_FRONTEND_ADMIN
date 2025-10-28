@@ -1,0 +1,130 @@
+<script>
+import BookCopyAdd from "@/components/BookCopyAdd.vue";
+import BookCopyList from "@/components/BookCopyList.vue";
+import BookForm from "@/components/BookForm.vue";
+import bookService from "@/services/book.service";
+import bookCopyService from "@/services/bookCopy.service";
+import { BookCopyStatus } from "@/utils/constant";
+
+export default {
+  components: {
+    BookForm,
+    BookCopyList,
+    BookCopyAdd,
+  },
+  props: {
+    id: { type: String, default: null },
+  },
+  data() {
+    return {
+      book: null,
+      bookCopies: [],
+    };
+  },
+  methods: {
+    async getBook(id) {
+      try {
+        this.book = (await bookService.findById(id)).result;
+        console.log(id + ", " + this.book);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getBookCopies(id) {
+      try {
+        this.bookCopies = (
+          await bookCopyService.findAll({ bookId: id })
+        ).result.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async createBook(data) {
+      try {
+        await bookService.create(data);
+        alert("Sách được tạo thành công.");
+        this.$router.push({ name: "books" });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async createBookCopy(quantity) {
+      try {
+        await bookCopyService.create({
+          quantity: quantity,
+          status: BookCopyStatus.available.name,
+          bookId: this.book._id,
+        });
+        await this.getBookCopies(this.id);
+        alert("Bản sao sách được tạo thành công.");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteBook() {
+      if (confirm("Bạn muốn xóa sách này?")) {
+        try {
+          await bookService.delete(this.book._id);
+          alert("Sách được xóa thành công.");
+          this.$router.push({ name: "books" });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    async deleteBookCopy(id) {
+      if (confirm("Bạn muốn xóa bản sao sách này?")) {
+        try {
+          await bookCopyService.delete(id);
+          await this.getBookCopies(this.id);
+          alert("Bản sao sách được xóa thành công.");
+        } catch (error) {
+          alert("Một sách phải có ít nhất 1 bản sao");
+          console.log(error);
+        }
+      }
+    },
+  },
+  created() {
+    if (this.id) {
+      this.getBook(this.id);
+      this.getBookCopies(this.id);
+    } else {
+      this.book = {
+        name: "",
+        price: "",
+        bookCopyQuantity: 1,
+        categories: [],
+        authors: [],
+        publisher: null,
+        images: [],
+      };
+    }
+  },
+};
+</script>
+
+<template>
+  <div>
+    <BookForm
+      v-if="book"
+      :book="book"
+      @submit:book="createBook"
+      @delete:book="deleteBook"
+    />
+    <div v-else class="p-4">Đang tải dữ liệu sách...</div>
+    <div v-if="book._id" class="book-copy ps-4 pe-4">
+      <h4>Các bản sao của sách này</h4>
+      <BookCopyAdd @submit:book-copy="createBookCopy" />
+      <BookCopyList
+        v-if="bookCopies"
+        :book-copies="bookCopies"
+        @delete:book-copy="deleteBookCopy"
+      />
+      <div v-else class="p-4">Đang tải dữ liệu bản sao sách...</div>
+    </div>
+  </div>
+</template>
