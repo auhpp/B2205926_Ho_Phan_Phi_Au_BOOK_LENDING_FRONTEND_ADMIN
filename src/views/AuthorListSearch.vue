@@ -1,6 +1,7 @@
 <script>
 import AuthorAdd from "@/components/AuthorAdd.vue";
 import AuthorList from "@/components/AuthorList.vue";
+import Pagination from "@/components/Pagination.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import authorService from "@/services/author.service";
 export default {
@@ -8,12 +9,16 @@ export default {
     SearchInput,
     AuthorList,
     AuthorAdd,
+    Pagination,
   },
   data() {
     return {
       searchText: "",
       authors: [],
       authorToEdit: {},
+      currentPage: 1,
+      totalPages: 1,
+      limit: 10,
     };
   },
   computed: {
@@ -21,10 +26,23 @@ export default {
       if (!this.searchText) return this.authors;
     },
   },
+  watch: {
+    currentPage(newPage) {
+      if (newPage) {
+        this.$router.push({ query: { page: newPage } });
+        this.retrieveAuthors();
+      }
+    },
+  },
   methods: {
     async retrieveAuthors() {
       try {
-        this.authors = (await authorService.findAll()).result;
+        const result = await authorService.findAll({
+          page: this.currentPage,
+          limit: this.limit,
+        });
+        this.authors = result.result.data;
+        this.totalPages = result.result.totalPages;
       } catch (error) {
         console.log(error);
       }
@@ -58,6 +76,12 @@ export default {
     },
   },
   mounted() {
+    const pageFromUrl = parseInt(this.$route.query.page);
+    if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
+      this.currentPage = pageFromUrl;
+    } else {
+      this.currentPage = 1;
+    }
     this.retrieveAuthors();
   },
 };
@@ -85,5 +109,8 @@ export default {
       @submit:author="openEditModal"
       @delete:author="deleteAuthor"
     />
+    <div class="d-flex justify-content-center mt-3">
+      <Pagination v-model="currentPage" :total-pages="totalPages" />
+    </div>
   </div>
 </template>

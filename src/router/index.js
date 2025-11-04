@@ -4,6 +4,7 @@ import AuthorListSearch from "@/views/AuthorListSearch.vue";
 import BookEdit from "@/views/BookEdit.vue";
 import BookListSearch from "@/views/BookListSearch.vue";
 import CategoryListSearch from "@/views/CategoryListSearch.vue";
+import ConfigurationListSearch from "@/views/ConfigurationListSearch.vue";
 import PublisherListSearch from "@/views/PublisherListSearch.vue";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
@@ -44,6 +45,12 @@ const routes = [
                 name: "publisher",
                 component: PublisherListSearch,
             },
+            {
+                path: routePaths.configurations,
+                name: "configurations",
+                component: ConfigurationListSearch,
+            },
+
 
         ]
     },

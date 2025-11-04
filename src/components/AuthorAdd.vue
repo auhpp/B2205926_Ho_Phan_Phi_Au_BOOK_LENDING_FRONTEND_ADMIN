@@ -67,15 +67,11 @@ export default {
               :validation-schema="authorFormSchema"
               :initial-values="author"
               :enable-reinitialize="true"
+              :key="author._id || 'new'"
             >
               <div class="form-group col-8">
                 <label for="name">Tên tác giả</label>
-                <Field
-                  name="name"
-                  v-model="author.name"
-                  type="text"
-                  class="form-control mb-4"
-                />
+                <Field name="name" type="text" class="form-control mb-4" />
                 <ErrorMessage name="name" class="text-danger" />
               </div>
               <div class="modal-footer">

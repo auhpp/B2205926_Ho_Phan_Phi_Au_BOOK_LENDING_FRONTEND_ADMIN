@@ -2,11 +2,12 @@ const routes = {
     signin: "/signin",
     signup: "/signup",
     books: "/books",
-    bookEdit: "/book/:id",
-    bookAdd: "/book/add",
+    bookEdit: "/books/:id",
+    bookAdd: "/books/add",
     categories: "/categories",
     authors: "/authors",
-    publishers: "/publishers"
+    publishers: "/publishers",
+    configurations: "/configurations"
 }
 
 export default routes;

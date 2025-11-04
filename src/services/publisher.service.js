@@ -5,9 +5,10 @@ class PublisherService {
         this.api = createApiClient(baseUrl);
     }
 
-    async findAll() {
-        return (await this.api.get("/")).data;
+    async findAll({ page, limit }) {
+        return (await this.api.get("/", { params: { page, limit } })).data;
     }
+
 
     async create(data) {
         return (await this.api.post("/", data)).data;

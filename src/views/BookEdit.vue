@@ -2,6 +2,7 @@
 import BookCopyAdd from "@/components/BookCopyAdd.vue";
 import BookCopyList from "@/components/BookCopyList.vue";
 import BookForm from "@/components/BookForm.vue";
+import Pagination from "@/components/Pagination.vue";
 import bookService from "@/services/book.service";
 import bookCopyService from "@/services/bookCopy.service";
 import { BookCopyStatus } from "@/utils/constant";
@@ -11,6 +12,7 @@ export default {
     BookForm,
     BookCopyList,
     BookCopyAdd,
+    Pagination,
   },
   props: {
     id: { type: String, default: null },
@@ -19,7 +21,18 @@ export default {
     return {
       book: null,
       bookCopies: [],
+      currentPage: 1,
+      totalPages: 1,
+      limit: 4,
     };
+  },
+  watch: {
+    currentPage(newPage) {
+      if (newPage) {
+        this.$router.push({ query: { page: newPage } });
+        this.getBookCopies(this.book._id);
+      }
+    },
   },
   methods: {
     async getBook(id) {
@@ -33,9 +46,15 @@ export default {
 
     async getBookCopies(id) {
       try {
-        this.bookCopies = (
-          await bookCopyService.findAll({ bookId: id })
-        ).result.data;
+        const result = (
+          await bookCopyService.findAll({
+            bookId: id,
+            page: this.currentPage,
+            limit: this.limit,
+          })
+        ).result;
+        this.bookCopies = result.data;
+        this.totalPages = result.totalPages;
       } catch (error) {
         console.log(error);
       }
@@ -90,6 +109,12 @@ export default {
   },
   created() {
     if (this.id) {
+      const pageFromUrl = parseInt(this.$route.query.page);
+      if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
+        this.currentPage = pageFromUrl;
+      } else {
+        this.currentPage = 1;
+      }
       this.getBook(this.id);
       this.getBookCopies(this.id);
     } else {
@@ -116,7 +141,7 @@ export default {
       @delete:book="deleteBook"
     />
     <div v-else class="p-4">Đang tải dữ liệu sách...</div>
-    <div v-if="book._id" class="book-copy ps-4 pe-4">
+    <div v-if="book && book._id" class="book-copy ps-4 pe-4">
       <h4>Các bản sao của sách này</h4>
       <BookCopyAdd @submit:book-copy="createBookCopy" />
       <BookCopyList
@@ -125,6 +150,9 @@ export default {
         @delete:book-copy="deleteBookCopy"
       />
       <div v-else class="p-4">Đang tải dữ liệu bản sao sách...</div>
+      <div class="d-flex justify-content-center mt-3">
+        <Pagination v-model="currentPage" :total-pages="totalPages" />
+      </div>
     </div>
   </div>
 </template>

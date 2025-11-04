@@ -2,15 +2,20 @@
 import SearchInput from "@/components/SearchInput.vue";
 import BookList from "@/components/BookList.vue";
 import bookService from "@/services/book.service";
+import Pagination from "@/components/Pagination.vue";
 export default {
   components: {
     SearchInput,
     BookList,
+    Pagination,
   },
   data() {
     return {
       searchText: "",
       books: [],
+      currentPage: 1,
+      totalPages: 1,
+      limit: 10,
     };
   },
   computed: {
@@ -18,11 +23,23 @@ export default {
       if (!this.searchText) return this.books;
     },
   },
+  watch: {
+    currentPage(newPage) {
+      if (newPage) {
+        this.$router.push({ query: { page: newPage } });
+        this.retrieveBooks();
+      }
+    },
+  },
   methods: {
     async retrieveBooks() {
       try {
-        this.books = (await bookService.findAll()).result.data;
-        console.log(this.books);
+        const result = await bookService.findAll({
+          page: this.currentPage,
+          limit: this.limit,
+        });
+        this.books = result.result.data;
+        this.totalPages = result.result.totalPages;
       } catch (error) {
         console.log(error);
       }
@@ -31,8 +48,18 @@ export default {
     navigateToCreateBook() {
       this.$router.push({ name: "book-add" });
     },
+
+    handleChangePage(pageNum) {
+      this.currentPage = pageNum;
+    },
   },
   mounted() {
+    const pageFromUrl = parseInt(this.$route.query.page);
+    if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
+      this.currentPage = pageFromUrl;
+    } else {
+      this.currentPage = 1;
+    }
     this.retrieveBooks();
   },
 };
@@ -53,5 +80,8 @@ export default {
       </button>
     </div>
     <BookList :books="filteredBooks" />
+    <div class="d-flex justify-content-center mt-3">
+      <Pagination v-model="currentPage" :total-pages="totalPages" />
+    </div>
   </div>
 </template>

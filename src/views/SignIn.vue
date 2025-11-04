@@ -36,7 +36,7 @@ export default {
         });
         if (authRes.result.authenticated == true) {
           console.log("navigate");
-          this.$router.push({ name: "book" });
+          this.$router.push({ name: "books" });
           localStorage.setItem("access_token", authRes.result.token);
         } else {
           this.errorLogin = "Tên đăng nhập hoặc mật khẩu không đúng.";
@@ -60,12 +60,13 @@ export default {
           <div v-if="errorLogin" class="alert alert-danger" role="alert">
             <span> {{ errorLogin }}</span>
           </div>
-          <div class="form-floating  text-start">
+          <div class="form-floating text-start">
             <Field
               type="text"
               class="form-control"
               id="userName"
               name="userName"
+              placeholder="userName"
               v-model="userName"
             />
             <label for="userName">Username</label>

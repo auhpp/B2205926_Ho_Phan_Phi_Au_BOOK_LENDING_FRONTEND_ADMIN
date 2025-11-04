@@ -11,7 +11,6 @@ export default {
   },
 };
 </script>
-
 <template>
   <div
     class="d-flex flex-column flex-shrink-0 p-2 bg-light fixed-sidebar"
@@ -25,33 +24,104 @@ export default {
     </router-link>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <router-link
-          :to="routes.books"
-          class="nav-link active"
-          aria-current="page"
-        >
-          <i class="fa-solid fa-book"></i>
-          Quản lý sách
+        <router-link :to="routes.books" v-slot="{ href, navigate }" custom>
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.books) ? 'active' : 'text-black',
+            ]"
+            :aria-current="$route.path.startsWith(routes.books) ? 'page' : null"
+          >
+            <i class="fa-solid fa-book"></i>
+            Quản lý sách
+          </a>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="routes.categories" v-slot="{ href, navigate }" custom>
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.categories)
+                ? 'active'
+                : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.categories) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-book"></i>
+            Quản lý danh mục
+          </a>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="routes.authors" v-slot="{ href, navigate }" custom>
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.authors) ? 'active' : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.authors) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-book"></i>
+            Quản lý tác giả
+          </a>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="routes.publishers" v-slot="{ href, navigate }" custom>
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.publishers)
+                ? 'active'
+                : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.publishers) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-book"></i>
+            Quản lý nhà xuất bản
+          </a>
         </router-link>
       </li>
       <li class="nav-item">
         <router-link
-          :to="routes.categories"
-          class="nav-link text-black"
-          aria-current="page"
+          :to="routes.configurations"
+          v-slot="{ href, navigate }"
+          custom
         >
-          <i class="fa-solid fa-book"></i>
-          Quản lý danh mục
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <router-link
-          :to="routes.publishers"
-          class="nav-link text-black"
-          aria-current="page"
-        >
-          <i class="fa-solid fa-book"></i>
-          Quản lý tác giả
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.configurations)
+                ? 'active'
+                : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.configurations) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-book"></i>
+            Quản lý cấu hình
+          </a>
         </router-link>
       </li>
     </ul>

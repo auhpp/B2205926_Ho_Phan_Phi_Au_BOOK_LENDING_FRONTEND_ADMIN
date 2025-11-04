@@ -9,7 +9,7 @@ export default {
   },
   emits: ["submit:publisher"],
   props: {
-    publisher: { type: Object, required: true },
+    publisher: { type: Object, required: true, default: {} },
   },
   data() {
     const publisherFormSchema = yup.object().shape({
@@ -69,15 +69,11 @@ export default {
               :validation-schema="publisherFormSchema"
               :initial-values="publisher"
               :enable-reinitialize="true"
+              :key="publisher._id || 'new'"
             >
               <div class="form-group col-8">
                 <label for="name">Tên nhà xuất bản</label>
-                <Field
-                  name="name"
-                  v-model="publisher.name"
-                  type="text"
-                  class="form-control mb-4"
-                />
+                <Field name="name" type="text" class="form-control mb-4" />
                 <ErrorMessage name="name" class="text-danger" />
               </div>
               <div class="modal-footer">

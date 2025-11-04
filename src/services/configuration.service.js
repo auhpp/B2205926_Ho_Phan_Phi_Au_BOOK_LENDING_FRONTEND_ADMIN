@@ -1,7 +1,7 @@
 import createApiClient from "./api.service";
 
-class CategoryService {
-    constructor(baseUrl = "/api/category") {
+class ConfigurationService {
+    constructor(baseUrl = "/api/configuration") {
         this.api = createApiClient(baseUrl);
     }
 
@@ -13,9 +13,7 @@ class CategoryService {
         return (await this.api.post("/", data)).data;
 
     }
-    async delete(id) {
-        return (await this.api.delete(`/${id}`)).data;
-    }
+
 }
 
-export default new CategoryService();
+export default new ConfigurationService();

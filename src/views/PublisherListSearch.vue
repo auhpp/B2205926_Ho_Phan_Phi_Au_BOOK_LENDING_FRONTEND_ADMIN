@@ -1,4 +1,5 @@
 <script>
+import Pagination from "@/components/Pagination.vue";
 import PublisherAdd from "@/components/PublisherAdd.vue";
 import PublisherList from "@/components/PublisherList.vue";
 import SearchInput from "@/components/SearchInput.vue";
@@ -8,13 +9,25 @@ export default {
     SearchInput,
     PublisherAdd,
     PublisherList,
+    Pagination,
   },
   data() {
     return {
       searchText: "",
       publisers: [],
       publisherToEdit: {},
+      currentPage: 1,
+      totalPages: 1,
+      limit: 1,
     };
+  },
+  watch: {
+    currentPage(newPage) {
+      if (newPage) {
+        this.$router.push({ query: { page: newPage } });
+        this.retrievePublisher();
+      }
+    },
   },
   computed: {
     filteredPublishers() {
@@ -24,7 +37,12 @@ export default {
   methods: {
     async retrievePublisher() {
       try {
-        this.publisers = (await publisherService.findAll()).result;
+        const result = await publisherService.findAll({
+          page: this.currentPage,
+          limit: this.limit,
+        });
+        this.publisers = result.result.data;
+        this.totalPages = result.result.totalPages;
       } catch (error) {
         console.log(error);
       }
@@ -39,7 +57,7 @@ export default {
       }
     },
     openEditModal(publisher) {
-      this.publisherToEdit = publisher;
+      this.publisherToEdit = { ...publisher };
     },
     openAddModal() {
       this.publisherToEdit = {};
@@ -58,6 +76,12 @@ export default {
     },
   },
   mounted() {
+    const pageFromUrl = parseInt(this.$route.query.page);
+    if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
+      this.currentPage = pageFromUrl;
+    } else {
+      this.currentPage = 1;
+    }
     this.retrievePublisher();
   },
 };
@@ -88,5 +112,8 @@ export default {
       @submit:publisher="openEditModal"
       @delete:publisher="deletePublisher"
     />
+    <div class="d-flex justify-content-center mt-3">
+      <Pagination v-model="currentPage" :total-pages="totalPages" />
+    </div>
   </div>
 </template>

@@ -84,13 +84,13 @@ export default {
       this.$emit("delete:book", this.book._id);
     },
     async getAllCategoy() {
-      this.categories = (await categoryService.findAll()).result;
+      this.categories = (await categoryService.findAll({})).result;
     },
     async getAllAuthor() {
-      this.authors = (await authorService.findAll()).result;
+      this.authors = (await authorService.findAll({})).result;
     },
     async getAllPublisher() {
-      this.publishers = (await publisherService.findAll()).result;
+      this.publishers = (await publisherService.findAll({})).result;
     },
 
     handleFileChange(event) {
@@ -130,18 +130,24 @@ export default {
     :enable-reinitialize="true"
     :validation-context="{ isEditMode: isEditMode }"
   >
-    <div class="d-flex justify-content-end mb-2">
+    <div class="d-flex justify-content-between mb-2">
+      <i
+        class="fa-solid fa-arrow-left icon-back"
+        @click="this.$router.back()"
+      ></i>
       <template v-if="isEditMode">
-        <button type="submit" class="col-1 me-1 btn btn-success btn-sm">
-          Cập nhật
-        </button>
-        <button
-          @click="deleteBook"
-          type="button"
-          class="col-1 me-1 btn btn-danger btn-sm"
-        >
-          <i class="fa-solid fa-trash"></i>
-        </button>
+        <div class="col-2 text-end">
+          <button type="submit" class="col me-1 btn btn-success btn-sm">
+            Cập nhật
+          </button>
+          <button
+            @click="deleteBook"
+            type="button"
+            class="me-1 btn btn-danger btn-sm"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
       </template>
       <template v-else>
         <button type="submit" class="col-1 me-1 btn btn-primary btn-sm">
@@ -272,7 +278,7 @@ export default {
 
 <style>
 .image-preview-wrapper {
-  width: 200px;
+  width: 140px;
   aspect-ratio: 1 / 1.5;
   position: relative;
   overflow: hidden;
@@ -297,5 +303,10 @@ export default {
   position: absolute;
   top: 2px;
   right: 2px;
+}
+
+.icon-back {
+  font-size: 20px;
+  cursor: pointer;
 }
 </style>

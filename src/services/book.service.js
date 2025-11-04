@@ -5,7 +5,7 @@ class BookService {
         this.api = createApiClient(baseUrl);
     }
 
-    async findAll(data) {
+    async findAll({ page, limit }) {
         return (await this.api.get("/")).data;
     }
 

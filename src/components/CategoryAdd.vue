@@ -68,15 +68,11 @@ export default {
               :validation-schema="categoryFormSchema"
               :initial-values="category"
               :enable-reinitialize="true"
+              :key="category._id || 'new'"
             >
               <div class="form-group col-8">
                 <label for="name">Tên danh mục</label>
-                <Field
-                  name="name"
-                  v-model="category.name"
-                  type="text"
-                  class="form-control mb-4"
-                />
+                <Field name="name" type="text" class="form-control mb-4" />
                 <ErrorMessage name="name" class="text-danger" />
               </div>
               <div class="modal-footer">

@@ -23,6 +23,7 @@ export default {
       <tr>
         <th class="col-3" scope="col">ID</th>
         <th scope="col">Tên sách</th>
+        <th scope="col" class="text-center">Số lượng bản sao</th>
         <th scope="col">Ảnh</th>
         <th scope="col">Giá</th>
         <!-- <th scope="col" class="text-center">Thao tác</th> -->
@@ -40,6 +41,9 @@ export default {
         </td>
         <td>
           {{ book.name }}
+        </td>
+        <td class="text-center">
+          {{ book.bookCopyCount }}
         </td>
         <td>
           <img :src="book.images[0]" width="40" height="40" />
