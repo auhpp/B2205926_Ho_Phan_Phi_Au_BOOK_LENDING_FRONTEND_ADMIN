@@ -7,7 +7,8 @@ const routes = {
     categories: "/categories",
     authors: "/authors",
     publishers: "/publishers",
-    configurations: "/configurations"
+    configurations: "/configurations",
+    loanSlip: "/loanSlips"
 }
 
 export default routes;

@@ -5,6 +5,8 @@ import BookEdit from "@/views/BookEdit.vue";
 import BookListSearch from "@/views/BookListSearch.vue";
 import CategoryListSearch from "@/views/CategoryListSearch.vue";
 import ConfigurationListSearch from "@/views/ConfigurationListSearch.vue";
+import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
+import LoanSlipListSearch from "@/views/LoanSlipListSearch.vue";
 import PublisherListSearch from "@/views/PublisherListSearch.vue";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
@@ -50,7 +52,17 @@ const routes = [
                 name: "configurations",
                 component: ConfigurationListSearch,
             },
-
+            {
+                path: routePaths.loanSlip,
+                name: "loanSlip",
+                component: LoanSlipListSearch,
+            },
+            {
+                path: routePaths.loanSlip + "/:id",
+                name: "loanSlip.detail",
+                component: LoanSlipDetail,
+                props: true
+            },
 
         ]
     },

@@ -55,8 +55,7 @@ export default {
               $route.path.startsWith(routes.categories) ? 'page' : null
             "
           >
-            <i class="fa-solid fa-book"></i>
-            Quản lý danh mục
+            <i class="fa-solid fa-icons"></i> Quản lý danh mục
           </a>
         </router-link>
       </li>
@@ -74,7 +73,7 @@ export default {
               $route.path.startsWith(routes.authors) ? 'page' : null
             "
           >
-            <i class="fa-solid fa-book"></i>
+            <i class="fa-solid fa-person-walking-luggage"></i>
             Quản lý tác giả
           </a>
         </router-link>
@@ -95,7 +94,7 @@ export default {
               $route.path.startsWith(routes.publishers) ? 'page' : null
             "
           >
-            <i class="fa-solid fa-book"></i>
+            <i class="fa-solid fa-user-secret"></i>
             Quản lý nhà xuất bản
           </a>
         </router-link>
@@ -119,8 +118,26 @@ export default {
               $route.path.startsWith(routes.configurations) ? 'page' : null
             "
           >
-            <i class="fa-solid fa-book"></i>
+            <i class="fa-solid fa-calendar-check"></i>
             Quản lý cấu hình
+          </a>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link :to="routes.loanSlip" v-slot="{ href, navigate }" custom>
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.loanSlip) ? 'active' : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.loanSlip) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-clipboard-list"></i>
+            Quản lý phiếu mượn
           </a>
         </router-link>
       </li>
