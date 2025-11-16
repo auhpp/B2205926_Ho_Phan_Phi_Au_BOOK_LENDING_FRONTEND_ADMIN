@@ -1,56 +1,50 @@
 <script>
-import SearchInput from "@/components/SearchInput.vue";
-import BookList from "@/components/BookList.vue";
-import bookService from "@/services/book.service";
 import Pagination from "@/components/Pagination.vue";
+import PenaltyTicketList from "@/components/PenaltyTicketList.vue";
+import SearchInput from "@/components/SearchInput.vue";
+import loanSlipService from "@/services/loanSlip.service";
+import penaltyTicketService from "@/services/penaltyTicket.service";
+
 export default {
   components: {
     SearchInput,
-    BookList,
     Pagination,
+    PenaltyTicketList,
   },
   data() {
     return {
       searchText: "",
-      books: [],
+      penaltyTickets: [],
       currentPage: 1,
       totalPages: 1,
       limit: 10,
     };
   },
   computed: {
-    filteredBooks() {
-      if (!this.searchText) return this.books;
+    filteredpenaltyTickets() {
+      if (!this.searchText) return this.penaltyTickets;
     },
   },
   watch: {
     currentPage(newPage) {
       if (newPage) {
         this.$router.push({ query: { page: newPage } });
-        this.retrieveBooks();
+        this.retrievePenaltyTickets();
       }
     },
   },
   methods: {
-    async retrieveBooks() {
+    async retrievePenaltyTickets() {
       try {
-        const result = await bookService.findAll({
+        const result = await penaltyTicketService.findAll({
           page: this.currentPage,
           limit: this.limit,
         });
-        this.books = result.result.data;
+        this.penaltyTickets = result.result.data;
         this.totalPages = result.result.totalPages;
       } catch (error) {
         console.log(error);
       }
-    },
-
-    navigateToCreateBook() {
-      this.$router.push({ name: "book-add" });
-    },
-
-    handleChangePage(pageNum) {
-      this.currentPage = pageNum;
     },
   },
   mounted() {
@@ -60,7 +54,7 @@ export default {
     } else {
       this.currentPage = 1;
     }
-    this.retrieveBooks();
+    this.retrievePenaltyTickets();
   },
 };
 </script>
@@ -69,18 +63,8 @@ export default {
     <div class="col-5">
       <SearchInput />
     </div>
-    <div class="col-5">
-      <button
-        type="button"
-        @click="navigateToCreateBook"
-        class="btn btn-outline-primary"
-      >
-        <i class="fa-solid fa-plus"></i>
-        Thêm sách
-      </button>
-    </div>
     <div class="info-user mt-2">
-      <BookList :books="filteredBooks" />
+      <PenaltyTicketList :penalty-tickets="penaltyTickets" />
     </div>
     <div class="d-flex justify-content-center mt-3">
       <Pagination v-model="currentPage" :total-pages="totalPages" />

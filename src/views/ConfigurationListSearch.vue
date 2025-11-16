@@ -86,10 +86,12 @@ export default {
         @submit:configuration="createConfiguration"
       />
     </div>
-    <ConfigurationList
-      :configurations="configurations"
-      @submit:configuration="openEditModal"
-    />
+    <div class="info-user mt-2">
+      <ConfigurationList
+        :configurations="configurations"
+        @submit:configuration="openEditModal"
+      />
+    </div>
     <div class="d-flex justify-content-center mt-3">
       <Pagination v-model="currentPage" :total-pages="totalPages" />
     </div>

@@ -141,6 +141,30 @@ export default {
           </a>
         </router-link>
       </li>
+      <li class="nav-item">
+        <router-link
+          :to="routes.penaltyTicket"
+          v-slot="{ href, navigate }"
+          custom
+        >
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.penaltyTicket)
+                ? 'active'
+                : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.penaltyTicket) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-ticket"></i>
+            Quản lý phiếu phạt
+          </a>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>

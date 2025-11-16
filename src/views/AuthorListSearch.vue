@@ -104,11 +104,13 @@ export default {
       </button>
       <AuthorAdd :author="authorToEdit" @submit:author="createAuthor" />
     </div>
-    <AuthorList
-      :authors="authors"
-      @submit:author="openEditModal"
-      @delete:author="deleteAuthor"
-    />
+    <div class="info-user mt-2">
+      <AuthorList
+        :authors="authors"
+        @submit:author="openEditModal"
+        @delete:author="deleteAuthor"
+      />
+    </div>
     <div class="d-flex justify-content-center mt-3">
       <Pagination v-model="currentPage" :total-pages="totalPages" />
     </div>

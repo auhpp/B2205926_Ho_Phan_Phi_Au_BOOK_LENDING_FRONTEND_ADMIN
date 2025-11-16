@@ -7,14 +7,37 @@ import CategoryListSearch from "@/views/CategoryListSearch.vue";
 import ConfigurationListSearch from "@/views/ConfigurationListSearch.vue";
 import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
 import LoanSlipListSearch from "@/views/LoanSlipListSearch.vue";
+import PenaltyTicketDetail from "@/views/PenaltyTicketDetail.vue";
+import PenaltyTicketListSearch from "@/views/PenaltyTicketListSearch.vue";
 import PublisherListSearch from "@/views/PublisherListSearch.vue";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
 import { createWebHistory, createRouter } from "vue-router";
+
+const ifLoggedInRedirectToHome = (to, from, next) => {
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+        next({ name: 'books' });
+    } else {
+        next();
+    }
+};
+
+const ifNotLoggedInRedirectToSignin = (to, from, next) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        next({ name: 'signin' });
+    } else {
+        next();
+    }
+};
+
 const routes = [
     {
         path: "/",
         component: DefaultLayout,
+        beforeEnter: ifNotLoggedInRedirectToSignin,
         children: [
             {
                 path: routePaths.books,
@@ -63,18 +86,31 @@ const routes = [
                 component: LoanSlipDetail,
                 props: true
             },
+            {
+                path: routePaths.penaltyTicket,
+                name: "penaltyTicket",
+                component: PenaltyTicketListSearch,
+            },
+            {
+                path: routePaths.penaltyTicket + "/:id",
+                name: "penaltyTicket.detail",
+                component: PenaltyTicketDetail,
+                props: true
+            },
 
         ]
     },
     {
         path: routePaths.signup,
         name: "signup",
-        component: SignUp
+        component: SignUp,
+        beforeEnter: ifLoggedInRedirectToHome
     },
     {
         path: routePaths.signin,
         name: "signin",
-        component: SignIn
+        component: SignIn,
+        beforeEnter: ifLoggedInRedirectToHome
     }
 ];
 const router = createRouter({

@@ -28,3 +28,11 @@
 body {
   font-family: "Roboto", sans-serif;
 }
+
+.info-user,
+.info-date,
+.book-borrow-list {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--grey-light);
+}

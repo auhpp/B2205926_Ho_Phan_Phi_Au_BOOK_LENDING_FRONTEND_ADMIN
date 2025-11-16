@@ -42,7 +42,7 @@ export default {
           {{ bookCopy.barCode }}
         </td>
         <td>
-          <span :class="'badge ' + BookCopyStatus[bookCopy.status].color">
+          <span :class="'badge text-bg-' + BookCopyStatus[bookCopy.status].color">
             {{ BookCopyStatus[bookCopy.status].desc }}
           </span>
         </td>

@@ -5,8 +5,9 @@ export default {
   props: {
     books: { type: Array, default: [] },
     status: { type: String },
+    loanSlip: { type: Object },
   },
-  emits: ["submit:loanSlipDetail"],
+  emits: ["submit:loanSlipDetail", "submit:penaltyTicket"],
   data() {
     return {
       LoanDetailStatus: LoanDetailStatus,
@@ -16,6 +17,9 @@ export default {
   methods: {
     editLoanSlipDetail(loanSlipDetail) {
       this.$emit("submit:loanSlipDetail", loanSlipDetail);
+    },
+    createPenaltyTicket(bookCopy) {
+      this.$emit("submit:penaltyTicket", bookCopy);
     },
   },
 };
@@ -29,7 +33,7 @@ export default {
         <th scope="col">Barcode</th>
         <th scope="col">Ảnh</th>
         <th scope="col" class="text-center">Trạng thái</th>
-        <!-- <th scope="col" class="text-center">Thao tác</th> -->
+        <th scope="col" class="text-center">Phiếu phạt</th>
       </tr>
     </thead>
     <tbody v-if="books">
@@ -49,7 +53,9 @@ export default {
         <td class="text-center">
           <button
             type="button"
-            :class="'btn btn-sm btn-' + LoanDetailStatus[book.loanDetailStatus].color"
+            :class="
+              'btn btn-sm btn-' + LoanDetailStatus[book.loanDetailStatus].color
+            "
             data-bs-toggle="modal"
             :data-bs-target="
               status != LoanSlipStatus.pending.name &&
@@ -62,17 +68,41 @@ export default {
             {{ LoanDetailStatus[book.loanDetailStatus].desc }}
           </button>
         </td>
-        <!-- <td class="text-center">
-          <button type="button" class="col-2 me-1 btn btn-secondary btn-sm">
-            <i class="fa-solid fa-bars"></i>
+        <td
+          class="text-center text-"
+          v-if="
+            book.loanDetailStatus == LoanDetailStatus.lost.name ||
+            book.loanDetailStatus == LoanDetailStatus.damaged.name ||
+            new Date(loanSlip.returnedDate) > new Date(loanSlip.returnDate)
+          "
+        >
+          <button
+            type="button"
+            class="btn btn-light"
+            data-bs-toggle="modal"
+            data-bs-target="#penaltyTicketAddModal"
+            @click="createPenaltyTicket(book)"
+            v-if="!book.penaltyTicket"
+          >
+            Tạo phiếu phạt
           </button>
-          <button type="button" class="col-2 me-1 btn btn-success btn-sm">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </button>
-          <button type="button" class="col-2 me-1 btn btn-danger btn-sm">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </td> -->
+          <div
+            v-else
+            class="text-primary"
+            style="text-decoration: underline; cursor: pointer"
+            @click="
+              this.$router.push({
+                name: 'penaltyTicket.detail',
+                params: { id: book.penaltyTicket._id },
+              })
+            "
+          >
+            Mở phiếu phạt
+          </div>
+        </td>
+        <td class="text-center" v-else>
+          <span class="text-success fw-bold">Không có</span>
+        </td>
       </tr>
     </tbody>
   </table>

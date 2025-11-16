@@ -107,11 +107,13 @@ export default {
         @submit:publisher="createPublisher"
       />
     </div>
-    <PublisherList
-      :publishers="publisers"
-      @submit:publisher="openEditModal"
-      @delete:publisher="deletePublisher"
-    />
+    <div class="info-user mt-2">
+      <PublisherList
+        :publishers="publisers"
+        @submit:publisher="openEditModal"
+        @delete:publisher="deletePublisher"
+      />
+    </div>
     <div class="d-flex justify-content-center mt-3">
       <Pagination v-model="currentPage" :total-pages="totalPages" />
     </div>

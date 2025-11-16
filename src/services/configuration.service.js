@@ -9,9 +9,12 @@ class ConfigurationService {
         return (await this.api.get("/", { params: { page, limit } })).data;
     }
 
+    async findByName(name) {
+        return (await this.api.get(`/${name}`)).data;
+    }
+
     async create(data) {
         return (await this.api.post("/", data)).data;
-
     }
 
 }

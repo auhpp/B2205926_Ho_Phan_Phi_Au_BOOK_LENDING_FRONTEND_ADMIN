@@ -8,7 +8,9 @@ const routes = {
     authors: "/authors",
     publishers: "/publishers",
     configurations: "/configurations",
-    loanSlip: "/loanSlips"
+    loanSlip: "/loanSlips",
+    penaltyTicket: "/penaltyTickets"
+
 }
 
 export default routes;

@@ -62,7 +62,9 @@ export default {
     <div class="col-5">
       <SearchInput />
     </div>
-    <LoanSlipList :loan-slips="loanSlips" />
+    <div class="info-user mt-2">
+      <LoanSlipList :loan-slips="loanSlips" />
+    </div>
     <div class="d-flex justify-content-center mt-3">
       <Pagination v-model="currentPage" :total-pages="totalPages" />
     </div>

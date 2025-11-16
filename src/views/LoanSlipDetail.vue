@@ -9,12 +9,15 @@ import { formatDate, formatDateTime } from "@/utils/formatDate";
 import VueMultiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.css";
 import defaultAvatar from "@/assets/images/default_avatar.png";
+import PenaltyTicketAddModal from "@/components/PenaltyTicketAddModal.vue";
+import penaltyTicketService from "@/services/penaltyTicket.service";
 
 export default {
   components: {
     BorrowBookList,
     UpdateStateBookCopyDialog,
     VueMultiselect,
+    PenaltyTicketAddModal,
   },
   data() {
     return {
@@ -24,6 +27,7 @@ export default {
       staffs: [],
       selectedStaff: null,
       defaultAvatar: defaultAvatar,
+      bookCopyPenTicket: null,
     };
   },
   props: {
@@ -57,6 +61,12 @@ export default {
     },
 
     async updateLoanSlip() {
+      if (
+        this.loanSlip.status !== LoanSlipStatus.pending.name &&
+        this.loanSlip.status !== LoanSlipStatus.approved.name
+      ) {
+        return;
+      }
       if (!this.selectedStaff) {
         alert("Lỗi! phải chọn nhân viên");
         return;
@@ -126,6 +136,22 @@ export default {
     async getAllStaff() {
       this.staffs = (await staffService.findAll({})).result;
     },
+
+    openCreatePenTicketModal(bookCopy) {
+      this.bookCopyPenTicket = bookCopy;
+    },
+
+    async createPenaltyTicket(penaltyTicket) {
+      try {
+        const data = await penaltyTicketService.create(penaltyTicket);
+        const res = data.result;
+        if (res) {
+          alert("Tạo phiếu phạt thành công");
+        }
+      } catch (error) {
+        alert("Lỗi lấy thông tin phiếu mượn" + error);
+      }
+    },
   },
   created() {
     this.getAllStaff();
@@ -152,8 +178,8 @@ export default {
             placeholder="Chọn nhân viên"
             :disabled="
               loanSlip.staffId != null ||
-              loanSlip.status != LoanSlipStatus.pending.name ||
-              loanSlip.status != LoanSlipStatus.approved.name
+              (loanSlip.status != LoanSlipStatus.pending.name &&
+                loanSlip.status != LoanSlipStatus.approved.name)
             "
           >
           </vue-multiselect>
@@ -272,23 +298,23 @@ export default {
         :books="loanSlip.bookCopies"
         @submit:loan-slip-detail="openEditModal"
         :status="loanSlip.status"
+        :loan-slip="loanSlip"
+        @submit:penalty-ticket="openCreatePenTicketModal"
       />
       <UpdateStateBookCopyDialog
         :loan-detail="loanSlipDetail"
         @submit:loan-detail="updateLoanDetail"
       />
+
+      <PenaltyTicketAddModal
+        :book-copy="bookCopyPenTicket"
+        :reader="loanSlip.reader"
+        :loan-slip="loanSlip"
+        :staffs="staffs"
+        @submit:penalty-ticket="createPenaltyTicket"
+      />
     </div>
   </div>
 </template>
 
-<style>
-.info-user,
-.info-date,
-.book-borrow-list {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid var(--grey-border);
-}
-
-
-</style>
+<style></style>
