@@ -13,33 +13,33 @@ export default {
   },
   data() {
     return {
-      searchText: "",
       authors: [],
       authorToEdit: {},
-      currentPage: 1,
       totalPages: 1,
       limit: 10,
     };
   },
   computed: {
-    filteredBooks() {
-      if (!this.searchText) return this.authors;
+    currentPage() {
+      return parseInt(this.$route.query.page) || 1;
+    },
+    currentName() {
+      return this.$route.query.name || "";
     },
   },
   watch: {
-    currentPage(newPage) {
-      if (newPage) {
-        this.$router.push({ query: { page: newPage } });
-        this.retrieveAuthors();
-      }
+    "$route.query": {
+      handler: "retrieveAuthors",
+      immediate: true,
     },
   },
   methods: {
     async retrieveAuthors() {
       try {
-        const result = await authorService.findAll({
+        const result = await authorService.findPagination({
           page: this.currentPage,
           limit: this.limit,
+          name: this.currentName,
         });
         this.authors = result.result.data;
         this.totalPages = result.result.totalPages;
@@ -53,6 +53,7 @@ export default {
         await this.retrieveAuthors();
         alert("Tác giả được tạo thành công.");
       } catch (error) {
+        alert("Tên tác giả đã tồn tại!");
         console.log(error);
       }
     },
@@ -70,26 +71,39 @@ export default {
           this.retrieveAuthors();
           alert("Tác giả được xóa thành công.");
         } catch (error) {
+          alert("Xóa thất bại! Tác giả đã được sử dụng!");
           console.log(error);
         }
       }
     },
-  },
-  mounted() {
-    const pageFromUrl = parseInt(this.$route.query.page);
-    if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
-      this.currentPage = pageFromUrl;
-    } else {
-      this.currentPage = 1;
-    }
-    this.retrieveAuthors();
+
+    handleSearch(queryText) {
+      this.$router.push({
+        query: {
+          name: queryText || undefined,
+          page: 1,
+        },
+      });
+    },
+    handleChangePage(pageNum) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: pageNum,
+        },
+      });
+    },
   },
 };
 </script>
 <template>
   <div class="ps-2 pe-2">
     <div class="col-5">
-      <SearchInput />
+      <SearchInput
+        :initial-value="currentName"
+        :placeholder="'Tên tác giả ...'"
+        @submit:query="handleSearch"
+      />
     </div>
     <div class="col-5">
       <button
@@ -112,7 +126,11 @@ export default {
       />
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <Pagination v-model="currentPage" :total-pages="totalPages" />
+      <Pagination
+        :model-value="currentPage"
+        :total-pages="totalPages"
+        @update:model-value="handleChangePage"
+      />
     </div>
   </div>
 </template>

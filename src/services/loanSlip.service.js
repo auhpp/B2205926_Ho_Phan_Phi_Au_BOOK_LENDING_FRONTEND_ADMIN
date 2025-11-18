@@ -5,8 +5,8 @@ class LoanSlipService {
         this.api = createApiClient(baseUrl);
     }
 
-    async findAll({ page, limit }) {
-        return (await this.api.get("/", { params: { page, limit } })).data;
+    async findAll({ page, limit, id }) {
+        return (await this.api.get("/", { params: { page, limit, id } })).data;
     }
 
     async findById(id) {
@@ -14,6 +14,9 @@ class LoanSlipService {
     }
 
     async create(data) {
+        if (data._id) {
+            return (await this.api.put("/" + data._id, data)).data;
+        }
         return (await this.api.post("/", data)).data;
     }
 }

@@ -6,7 +6,9 @@ class LoanDetailService {
     }
 
     async create(data) {
-        return (await this.api.post("/", data)).data;
+        if (data._id) {
+            return (await this.api.put("/" + data._id, data)).data;
+        }
     }
 }
 

@@ -13,33 +13,33 @@ export default {
   },
   data() {
     return {
-      searchText: "",
       categories: [],
       category: {},
-      currentPage: 1,
       totalPages: 1,
       limit: 10,
     };
   },
   computed: {
-    filteredBooks() {
-      if (!this.searchText) return this.categories;
+    currentPage() {
+      return parseInt(this.$route.query.page) || 1;
+    },
+    currentName() {
+      return this.$route.query.name || "";
     },
   },
   watch: {
-    currentPage(newPage) {
-      if (newPage) {
-        this.$router.push({ query: { page: newPage } });
-        this.retrieveCategories();
-      }
+    "$route.query": {
+      handler: "retrieveCategories",
+      immediate: true,
     },
   },
   methods: {
     async retrieveCategories() {
       try {
-        const result = await categoryService.findAll({
+        const result = await categoryService.findPagination({
           page: this.currentPage,
           limit: this.limit,
+          name: this.currentName,
         });
         this.categories = result.result.data;
         this.totalPages = result.result.totalPages;
@@ -72,27 +72,38 @@ export default {
           this.retrieveCategories();
           alert("Danh mục được xóa thành công.");
         } catch (error) {
+          alert("Xóa thất bại! Danh mục đã được sử dụng!");
           console.log(error);
         }
       }
     },
-  },
-  mounted() {
-    const pageFromUrl = parseInt(this.$route.query.page);
-    if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
-      this.currentPage = pageFromUrl;
-    } else {
-      this.currentPage = 1;
-    }
-    this.category = {};
-    this.retrieveCategories();
+    handleSearch(queryText) {
+      this.$router.push({
+        query: {
+          name: queryText || undefined,
+          page: 1,
+        },
+      });
+    },
+    handleChangePage(pageNum) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: pageNum,
+        },
+      });
+    },
   },
 };
 </script>
 <template>
   <div class="ps-2 pe-2">
     <div class="col-5">
-      <SearchInput />
+      <SearchInput
+        :initial-value="currentName"
+        :placeholder="'Tên danh mục ...'"
+        @submit:query="handleSearch"
+      />
     </div>
     <div class="col-5">
       <button
@@ -118,7 +129,11 @@ export default {
       />
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <Pagination v-model="currentPage" :total-pages="totalPages" />
+      <Pagination
+        :model-value="currentPage"
+        :total-pages="totalPages"
+        @update:model-value="handleChangePage"
+      />
     </div>
   </div>
 </template>

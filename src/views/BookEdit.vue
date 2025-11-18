@@ -90,7 +90,7 @@ export default {
           alert("Sách được xóa thành công.");
           this.$router.push({ name: "books" });
         } catch (error) {
-          console.log(error);
+          alert("Sách đã được đưa vào sử dụng không thể xóa");
         }
       }
     },
@@ -101,7 +101,9 @@ export default {
           await this.getBookCopies(this.id);
           alert("Bản sao sách được xóa thành công.");
         } catch (error) {
-          alert("Một sách phải có ít nhất 1 bản sao");
+          alert(
+            "Một sách phải có ít nhất 1 bản sao hoặc sách đã được đưa vào sử dụng không xóa được"
+          );
           console.log(error);
         }
       }

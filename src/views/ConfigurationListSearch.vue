@@ -14,25 +14,24 @@ export default {
   },
   data() {
     return {
-      searchText: "",
       configurations: [],
       configuration: {},
-      currentPage: 1,
       totalPages: 1,
       limit: 10,
     };
   },
   computed: {
-    filteredConfigurations() {
-      if (!this.searchText) return this.configurations;
+    currentPage() {
+      return parseInt(this.$route.query.page) || 1;
+    },
+    currentName() {
+      return this.$route.query.name || "";
     },
   },
   watch: {
-    currentPage(newPage) {
-      if (newPage) {
-        this.$router.push({ query: { page: newPage } });
-        this.retrieveConfigurations();
-      }
+    "$route.query": {
+      handler: "retrieveConfigurations",
+      immediate: true,
     },
   },
   methods: {
@@ -41,6 +40,7 @@ export default {
         const result = await configurationService.findAll({
           page: this.currentPage,
           limit: this.limit,
+          name: this.currentName,
         });
         this.configurations = result.result.data;
         this.totalPages = result.result.totalPages;
@@ -62,23 +62,35 @@ export default {
       console.log("ca ", configuration);
       this.configuration = configuration;
     },
-  },
-  mounted() {
-    const pageFromUrl = parseInt(this.$route.query.page);
-    if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
-      this.currentPage = pageFromUrl;
-    } else {
-      this.currentPage = 1;
-    }
-    this.category = {};
-    this.retrieveConfigurations();
+
+    handleSearch(queryText) {
+      this.$router.push({
+        query: {
+          name: queryText || undefined,
+          page: 1,
+        },
+      });
+    },
+
+    handleChangePage(pageNum) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: pageNum,
+        },
+      });
+    },
   },
 };
 </script>
 <template>
   <div class="ps-2 pe-2">
     <div class="col-5">
-      <SearchInput />
+      <SearchInput
+        :initial-value="currentName"
+        :placeholder="'Tên cấu hình ...'"
+        @submit:query="handleSearch"
+      />
     </div>
     <div class="col-5">
       <ConfigurationAdd
@@ -93,7 +105,11 @@ export default {
       />
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <Pagination v-model="currentPage" :total-pages="totalPages" />
+      <Pagination
+        :model-value="currentPage"
+        :total-pages="totalPages"
+        @update:model-value="handleChangePage"
+      />
     </div>
   </div>
 </template>

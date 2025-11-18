@@ -22,7 +22,7 @@ export default {
     <thead>
       <tr>
         <th class="col-3" scope="col">ID</th>
-        <th scope="col">Tên sách</th>
+        <th scope="col-5">Tên sách</th>
         <th scope="col" class="text-center">Số lượng bản sao</th>
         <th scope="col">Ảnh</th>
         <th scope="col">Giá</th>
@@ -39,7 +39,7 @@ export default {
         <td>
           {{ book._id }}
         </td>
-        <td>
+        <td class="col-5">
           {{ book.name }}
         </td>
         <td class="text-center">

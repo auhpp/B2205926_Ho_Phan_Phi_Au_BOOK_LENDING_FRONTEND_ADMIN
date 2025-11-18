@@ -32,7 +32,10 @@ export default {
         .required("Tác giả không được để trống"),
       publisher: yup.object().required("Nhà xuất bản không được để trống"),
       bookCopyQuantity: yup
-        .string()
+        .number()
+        .typeError("Số lượng phải là một con số")
+        .integer("Số lượng phải là số nguyên")
+        .min(1, "Số lượng bản sao phải ít nhất là 1")
         .required("Số lượng bản sao không được để trống"),
       images: yup.array().when("$isEditMode", {
         is: (isEditMode) => isEditMode === true,
@@ -171,7 +174,8 @@ export default {
         <Field
           name="bookCopyQuantity"
           :readonly="isEditMode"
-          type="text"
+          type="number"
+          min="1"
           class="form-control"
         />
         <ErrorMessage name="bookCopyQuantity" class="text-danger" />

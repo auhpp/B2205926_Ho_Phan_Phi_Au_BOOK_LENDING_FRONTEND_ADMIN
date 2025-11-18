@@ -147,6 +147,7 @@ export default {
         const res = data.result;
         if (res) {
           alert("Tạo phiếu phạt thành công");
+          this.findLoanSlipById();
         }
       } catch (error) {
         alert("Lỗi lấy thông tin phiếu mượn" + error);

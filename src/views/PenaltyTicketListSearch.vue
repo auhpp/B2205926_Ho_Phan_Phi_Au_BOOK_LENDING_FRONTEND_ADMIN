@@ -2,7 +2,6 @@
 import Pagination from "@/components/Pagination.vue";
 import PenaltyTicketList from "@/components/PenaltyTicketList.vue";
 import SearchInput from "@/components/SearchInput.vue";
-import loanSlipService from "@/services/loanSlip.service";
 import penaltyTicketService from "@/services/penaltyTicket.service";
 
 export default {
@@ -13,24 +12,23 @@ export default {
   },
   data() {
     return {
-      searchText: "",
       penaltyTickets: [],
-      currentPage: 1,
       totalPages: 1,
       limit: 10,
     };
   },
   computed: {
-    filteredpenaltyTickets() {
-      if (!this.searchText) return this.penaltyTickets;
+    currentPage() {
+      return parseInt(this.$route.query.page) || 1;
+    },
+    currentIdQuery() {
+      return this.$route.query.id || "";
     },
   },
   watch: {
-    currentPage(newPage) {
-      if (newPage) {
-        this.$router.push({ query: { page: newPage } });
-        this.retrievePenaltyTickets();
-      }
+    "$route.query": {
+      handler: "retrievePenaltyTickets",
+      immediate: true,
     },
   },
   methods: {
@@ -39,6 +37,7 @@ export default {
         const result = await penaltyTicketService.findAll({
           page: this.currentPage,
           limit: this.limit,
+          id: this.currentIdQuery,
         });
         this.penaltyTickets = result.result.data;
         this.totalPages = result.result.totalPages;
@@ -46,28 +45,45 @@ export default {
         console.log(error);
       }
     },
-  },
-  mounted() {
-    const pageFromUrl = parseInt(this.$route.query.page);
-    if (!isNaN(pageFromUrl) && pageFromUrl > 0) {
-      this.currentPage = pageFromUrl;
-    } else {
-      this.currentPage = 1;
-    }
-    this.retrievePenaltyTickets();
+
+    handleSearch(queryText) {
+      this.$router.push({
+        query: {
+          id: queryText || undefined,
+          page: 1,
+        },
+      });
+    },
+
+    handleChangePage(pageNum) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: pageNum,
+        },
+      });
+    },
   },
 };
 </script>
 <template>
   <div class="ps-2 pe-2">
     <div class="col-5">
-      <SearchInput />
+      <SearchInput
+        :initial-value="currentIdQuery"
+        :placeholder="'Mã phiếu phạt ...'"
+        @submit:query="handleSearch"
+      />
     </div>
     <div class="info-user mt-2">
       <PenaltyTicketList :penalty-tickets="penaltyTickets" />
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <Pagination v-model="currentPage" :total-pages="totalPages" />
+      <Pagination
+        :model-value="currentPage"
+        :total-pages="totalPages"
+        @update:model-value="handleChangePage"
+      />
     </div>
   </div>
 </template>
