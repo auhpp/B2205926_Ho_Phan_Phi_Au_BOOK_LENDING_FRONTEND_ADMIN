@@ -2,6 +2,7 @@
 import BookCopyAdd from "@/components/BookCopyAdd.vue";
 import BookCopyList from "@/components/BookCopyList.vue";
 import BookForm from "@/components/BookForm.vue";
+import LoadingOverlay from "@/components/loadingOverlay.vue";
 import Pagination from "@/components/Pagination.vue";
 import bookService from "@/services/book.service";
 import bookCopyService from "@/services/bookCopy.service";
@@ -13,6 +14,7 @@ export default {
     BookCopyList,
     BookCopyAdd,
     Pagination,
+    LoadingOverlay,
   },
   props: {
     id: { type: String, default: null },
@@ -24,6 +26,7 @@ export default {
       currentPage: 1,
       totalPages: 1,
       limit: 4,
+      isLoading: false,
     };
   },
   watch: {
@@ -62,11 +65,14 @@ export default {
 
     async createBook(data) {
       try {
+        this.isLoading = true;
         await bookService.create(data);
         alert("Sách được tạo thành công.");
         this.$router.push({ name: "books" });
       } catch (error) {
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
 
@@ -136,6 +142,7 @@ export default {
 
 <template>
   <div>
+    <LoadingOverlay :visible="isLoading" />
     <BookForm
       v-if="book"
       :book="book"
