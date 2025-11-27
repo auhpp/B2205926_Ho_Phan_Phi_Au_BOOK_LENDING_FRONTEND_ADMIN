@@ -6,7 +6,18 @@ class StaffService {
     }
 
     async findAll() {
-        return (await this.api.get("/")).data;
+        return (await this.api.get("/all")).data;
+    }
+
+    async findPagination({ page, limit, userName }) {
+        return (await this.api.get("/", { params: { page, limit, userName } })).data;
+    }
+
+    async create(data) {
+        if (data._id) {
+            return (await this.api.put("/" + data._id, data)).data;
+        }
+        return (await this.api.post("/", data)).data;
     }
 
 

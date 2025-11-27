@@ -30,7 +30,7 @@ export default {
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
       type="button"
-      class="btn btn-outline-primary"
+      class="btn btn-primary"
     >
       <i class="fa-solid fa-plus"></i>
       Thêm bản sao sách
@@ -58,7 +58,7 @@ export default {
           </div>
           <div class="modal-body">
             <Form @submit="submitBookCopy">
-              <div class="form-group col-8">
+              <div class="form-group text-start mb-4">
                 <label for="quantity">Số lượng bản sao</label>
                 <Field
                   name="quantity"

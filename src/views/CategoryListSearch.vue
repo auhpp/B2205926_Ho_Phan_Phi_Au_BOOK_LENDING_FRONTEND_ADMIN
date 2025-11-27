@@ -97,38 +97,38 @@ export default {
 };
 </script>
 <template>
-  <div class="ps-2 pe-2">
-    <div class="col-5">
-      <SearchInput
-        :initial-value="currentName"
-        :placeholder="'Tên danh mục ...'"
-        @submit:query="handleSearch"
-      />
+  <div class="ps-4 pe-4">
+    <div class="row">
+      <div class="col-6">
+        <SearchInput
+          :initial-value="currentName"
+          :placeholder="'Tên danh mục ...'"
+          @submit:query="handleSearch"
+        />
+      </div>
+      <div class="col-6 text-end">
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#createCategoryModal"
+          type="button"
+          class="btn btn-primary"
+          @click="openAddModal"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Thêm danh mục
+        </button>
+      </div>
     </div>
-    <div class="col-5">
-      <button
-        data-bs-toggle="modal"
-        data-bs-target="#createCategoryModal"
-        type="button"
-        class="btn btn-outline-primary"
-        @click="openAddModal"
-      >
-        <i class="fa-solid fa-plus"></i>
-        Thêm danh mục
-      </button>
-      <CategoryAdd
-        :category="this.category"
-        @submit:category="createCategory"
-      />
-    </div>
-    <div class="info-user mt-2">
+
+    <CategoryAdd :category="this.category" @submit:category="createCategory" />
+    <div class="mt-2">
       <CategoryList
         :categories="categories"
         @submit:category="openEditModal"
         @delete:category="deleteCategory"
       />
     </div>
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-end mt-3">
       <Pagination
         :model-value="currentPage"
         :total-pages="totalPages"

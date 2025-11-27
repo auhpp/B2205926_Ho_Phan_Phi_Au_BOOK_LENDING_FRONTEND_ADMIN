@@ -12,6 +12,7 @@ import PenaltyTicketListSearch from "@/views/PenaltyTicketListSearch.vue";
 import PublisherListSearch from "@/views/PublisherListSearch.vue";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
+import StaffListSearch from "@/views/StaffListSearch.vue";
 import { createWebHistory, createRouter } from "vue-router";
 
 const ifLoggedInRedirectToHome = (to, from, next) => {
@@ -97,7 +98,11 @@ const routes = [
                 component: PenaltyTicketDetail,
                 props: true
             },
-
+            {
+                path: routePaths.staffs,
+                name: "staff",
+                component: StaffListSearch,
+            },
         ]
     },
     {

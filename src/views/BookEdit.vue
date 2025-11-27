@@ -151,15 +151,17 @@ export default {
     />
     <div v-else class="p-4">Đang tải dữ liệu sách...</div>
     <div v-if="book && book._id" class="book-copy ps-4 pe-4">
-      <h4>Các bản sao của sách này</h4>
-      <BookCopyAdd @submit:book-copy="createBookCopy" />
+      <div class="row mb-2">
+        <h4 class="col-6">Các bản sao của sách này</h4>
+        <BookCopyAdd class="col-6 text-end" @submit:book-copy="createBookCopy" />
+      </div>
       <BookCopyList
         v-if="bookCopies"
         :book-copies="bookCopies"
         @delete:book-copy="deleteBookCopy"
       />
       <div v-else class="p-4">Đang tải dữ liệu bản sao sách...</div>
-      <div class="d-flex justify-content-center mt-3">
+      <div class="d-flex justify-content-end mt-3">
         <Pagination v-model="currentPage" :total-pages="totalPages" />
       </div>
     </div>

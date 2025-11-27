@@ -61,6 +61,10 @@ export const LoanSlipStatus = {
         name: "rejected",
         desc: "Đã hủy",
         color: "danger"
+    },
+    all: {
+        name: "all",
+        desc: "Tất cả trạng thái"
     }
 }
 
@@ -141,4 +145,19 @@ export const PaymentStatus = {
         desc: "Chưa thanh toán",
         color: "danger"
     },
+    ALL: {
+        name: "ALL",
+        desc: "Tất cả trạng thái thanh toán"
+    }
+}
+
+export const Status = {
+    ACTIVE: {
+        desc: "Hoạt động",
+        color: "success"
+    },
+    IN_ACTIVE: {
+        desc: "Ngừng hoạt động",
+        color: "danger"
+    }
 }

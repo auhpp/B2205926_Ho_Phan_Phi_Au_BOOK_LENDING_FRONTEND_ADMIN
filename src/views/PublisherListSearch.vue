@@ -97,38 +97,40 @@ export default {
 };
 </script>
 <template>
-  <div class="ps-2 pe-2">
-    <div class="col-5">
-      <SearchInput
-        :initial-value="currentName"
-        :placeholder="'Tên nhà xuất bản ...'"
-        @submit:query="handleSearch"
-      />
+  <div class="ps-4 pe-4">
+    <div class="row">
+      <div class="col-6">
+        <SearchInput
+          :initial-value="currentName"
+          :placeholder="'Tên nhà xuất bản ...'"
+          @submit:query="handleSearch"
+        />
+      </div>
+      <div class="col-6 text-end">
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#createPublisherModal"
+          type="button"
+          class="btn btn-primary"
+          @click="openAddModal"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Thêm nhà xuất bản
+        </button>
+      </div>
     </div>
-    <div class="col-5">
-      <button
-        data-bs-toggle="modal"
-        data-bs-target="#createPublisherModal"
-        type="button"
-        class="btn btn-outline-primary"
-        @click="openAddModal"
-      >
-        <i class="fa-solid fa-plus"></i>
-        Thêm nhà xuất bản
-      </button>
-      <PublisherAdd
-        :publisher="publisherToEdit"
-        @submit:publisher="createPublisher"
-      />
-    </div>
-    <div class="info-user mt-2">
+    <PublisherAdd
+      :publisher="publisherToEdit"
+      @submit:publisher="createPublisher"
+    />
+    <div class="mt-2">
       <PublisherList
         :publishers="publisers"
         @submit:publisher="openEditModal"
         @delete:publisher="deletePublisher"
       />
     </div>
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-end mt-3">
       <Pagination
         :model-value="currentPage"
         :total-pages="totalPages"

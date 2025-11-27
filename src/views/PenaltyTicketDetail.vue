@@ -227,8 +227,8 @@ export default {
     <div class="book-borrow-list mt-2">
       <h5>Thông tin sách mượn</h5>
       <hr />
-      <table class="table table-hover">
-        <thead>
+      <table class="table table-hover table-display-data">
+        <thead class="table-head">
           <tr>
             <th scope="col">Tên sách</th>
             <th scope="col">Barcode</th>
@@ -255,7 +255,7 @@ export default {
               />
             </td>
             <td>
-              {{ penaltyTicketDetail.book.price }}
+              {{ VND.format(penaltyTicketDetail.book.price) }} đ
             </td>
           </tr>
         </tbody>
@@ -274,6 +274,4 @@ export default {
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

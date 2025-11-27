@@ -140,20 +140,20 @@ export default {
       ></i>
       <template v-if="isEditMode">
         <div class="col-2 text-end">
-          <button type="submit" class="col me-1 btn btn-success btn-sm">
+          <button type="submit" class="col me-1 btn btn-success">
             Cập nhật
           </button>
           <button
             @click="deleteBook"
             type="button"
-            class="me-1 btn btn-danger btn-sm"
+            class="me-1 btn btn-danger"
           >
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
       </template>
       <template v-else>
-        <button type="submit" class="col-1 me-1 btn btn-primary btn-sm">
+        <button type="submit" class="col-1 me-1 btn btn-primary">
           Tạo sách
         </button>
       </template>
@@ -164,7 +164,7 @@ export default {
         <Field name="name" type="text" class="form-control" />
         <ErrorMessage name="name" class="text-danger" />
       </div>
-      <div class="form-group col-2">
+      <div class="form-group col">
         <label for="price">Giá</label>
         <Field name="price" type="text" class="form-control" />
         <ErrorMessage name="price" class="text-danger" />
@@ -239,6 +239,7 @@ export default {
             @blur="handleBlur"
             :options="publishers"
             :multiple="false"
+          
             label="name"
             track-by="_id"
             placeholder="Chọn nhà xuất bản"

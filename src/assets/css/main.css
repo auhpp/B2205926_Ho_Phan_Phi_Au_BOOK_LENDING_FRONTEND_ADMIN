@@ -17,6 +17,8 @@
   --grey-border: #c5c5c5;
   --dark-blue: #00008a;
   --light-blue: #08f;
+  --grey-border-light: #e5e7eb;
+  --border-btn: #cbd5e1;
 }
 
 * {
@@ -27,6 +29,7 @@
 
 body {
   font-family: "Roboto", sans-serif;
+  background-color: #f6f6f8;
 }
 
 .info-user,
@@ -35,4 +38,28 @@ body {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid var(--grey-light);
+  background-color: white;
+}
+
+.table-display-data {
+  border: 1px solid var(--border-btn);
+  /* box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px; */
+  border-radius: 6px;
+}
+
+.table-head th {
+  background-color: #f8fafc;
+}
+
+.search-btn {
+  border: 1px solid var(--border-btn);
+  border-left: none;
+}
+
+.border-input {
+  border: 1px solid var(--border-btn);
+}
+
+.dropdown-item {
+  cursor: pointer;
 }

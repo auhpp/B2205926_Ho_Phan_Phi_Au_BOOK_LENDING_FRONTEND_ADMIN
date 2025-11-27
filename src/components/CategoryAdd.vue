@@ -70,7 +70,7 @@ export default {
               :enable-reinitialize="true"
               :key="category._id || 'new'"
             >
-              <div class="form-group col-8">
+              <div class="form-group ">
                 <label for="name">Tên danh mục</label>
                 <Field name="name" type="text" class="form-control mb-4" />
                 <ErrorMessage name="name" class="text-danger" />

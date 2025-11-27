@@ -26,9 +26,9 @@ export default {
 </script>
 
 <template>
-  <header class="p-3 mb-3 border-bottom fixed-header">
+  <header class="p-3 mb-3 border-bottom bg-white fixed-header">
     <div class="d-flex flex-wrap align-items-center justify-content-end">
-      <div class="dropdown text-end" v-if="user">
+      <div class="dropdown pe-4" v-if="user">
         <div
           class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
           id="dropdownUser1"
@@ -47,7 +47,7 @@ export default {
             height="32"
             class="rounded-circle me-2"
           />
-          <strong>{{ user.userName }}</strong>
+          <div>{{ user.userName }}</div>
         </div>
         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
           <li><a class="dropdown-item" href="#">Tài khoản của tôi</a></li>
@@ -67,9 +67,9 @@ export default {
 .fixed-header {
   position: fixed;
   top: 0;
-  left: 254px;
+  left: 251px;
   right: 0;
   z-index: 1020;
-  background-color: #fff;
+  background-color: white;
 }
 </style>

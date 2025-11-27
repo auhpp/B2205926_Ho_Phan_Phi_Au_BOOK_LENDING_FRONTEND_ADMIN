@@ -97,35 +97,38 @@ export default {
 };
 </script>
 <template>
-  <div class="ps-2 pe-2">
-    <div class="col-5">
-      <SearchInput
-        :initial-value="currentName"
-        :placeholder="'Tên tác giả ...'"
-        @submit:query="handleSearch"
-      />
+  <div class="ps-4 pe-4">
+    <div class="row">
+      <div class="col-6">
+        <SearchInput
+          :initial-value="currentName"
+          :placeholder="'Tên tác giả ...'"
+          @submit:query="handleSearch"
+        />
+      </div>
+      <div class="col-6 text-end">
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#createAuthorModal"
+          type="button"
+          class="btn btn-primary"
+          @click="openAddModal"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Thêm tác giả
+        </button>
+      </div>
     </div>
-    <div class="col-5">
-      <button
-        data-bs-toggle="modal"
-        data-bs-target="#createAuthorModal"
-        type="button"
-        class="btn btn-outline-primary"
-        @click="openAddModal"
-      >
-        <i class="fa-solid fa-plus"></i>
-        Thêm tác giả
-      </button>
-      <AuthorAdd :author="authorToEdit" @submit:author="createAuthor" />
-    </div>
-    <div class="info-user mt-2">
+    <AuthorAdd :author="authorToEdit" @submit:author="createAuthor" />
+
+    <div class="mt-2">
       <AuthorList
         :authors="authors"
         @submit:author="openEditModal"
         @delete:author="deleteAuthor"
       />
     </div>
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-end mt-3">
       <Pagination
         :model-value="currentPage"
         :total-pages="totalPages"

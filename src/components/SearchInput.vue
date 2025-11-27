@@ -27,7 +27,7 @@ export default {
   <div class="input-group mb-3">
     <input
       type="text"
-      class="form-control"
+      class="form-control border-input"
       :placeholder="placeholder"
       aria-label="Recipient’s username"
       aria-describedby="button-addon2"
@@ -36,7 +36,7 @@ export default {
     />
     <button
       @click="search"
-      class="btn btn-outline-secondary"
+      class="btn btn-outline-secondary search-btn"
       type="button"
       id="button-addon2"
     >

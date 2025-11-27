@@ -84,8 +84,8 @@ export default {
 };
 </script>
 <template>
-  <div class="ps-2 pe-2">
-    <div class="col-5">
+  <div class="ps-4 pe-4">
+    <div class="col-6">
       <SearchInput
         :initial-value="currentName"
         :placeholder="'Tên cấu hình ...'"
@@ -98,13 +98,13 @@ export default {
         @submit:configuration="createConfiguration"
       />
     </div>
-    <div class="info-user mt-2">
+    <div class="mt-2">
       <ConfigurationList
         :configurations="configurations"
         @submit:configuration="openEditModal"
       />
     </div>
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-end mt-3">
       <Pagination
         :model-value="currentPage"
         :total-pages="totalPages"

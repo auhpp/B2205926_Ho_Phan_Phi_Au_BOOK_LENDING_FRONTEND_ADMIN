@@ -3,6 +3,7 @@ import Pagination from "@/components/Pagination.vue";
 import PenaltyTicketList from "@/components/PenaltyTicketList.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import penaltyTicketService from "@/services/penaltyTicket.service";
+import { PaymentStatus } from "@/utils/constant";
 
 export default {
   components: {
@@ -15,6 +16,7 @@ export default {
       penaltyTickets: [],
       totalPages: 1,
       limit: 10,
+      PaymentStatus: PaymentStatus,
     };
   },
   computed: {
@@ -23,6 +25,9 @@ export default {
     },
     currentIdQuery() {
       return this.$route.query.id || "";
+    },
+    currentStatusQuery() {
+      return this.$route.query.paymentStatus || PaymentStatus.ALL.name;
     },
   },
   watch: {
@@ -38,6 +43,10 @@ export default {
           page: this.currentPage,
           limit: this.limit,
           id: this.currentIdQuery,
+          paymentStatus:
+            this.currentStatusQuery == PaymentStatus.ALL.name
+              ? ""
+              : this.currentStatusQuery,
         });
         this.penaltyTickets = result.result.data;
         this.totalPages = result.result.totalPages;
@@ -46,10 +55,11 @@ export default {
       }
     },
 
-    handleSearch(queryText) {
+    handleSearch(queryText, status) {
       this.$router.push({
         query: {
           id: queryText || undefined,
+          paymentStatus: status || PaymentStatus.ALL.name,
           page: 1,
         },
       });
@@ -67,18 +77,45 @@ export default {
 };
 </script>
 <template>
-  <div class="ps-2 pe-2">
-    <div class="col-5">
-      <SearchInput
-        :initial-value="currentIdQuery"
-        :placeholder="'Mã phiếu phạt ...'"
-        @submit:query="handleSearch"
-      />
+  <div class="ps-4 pe-4">
+    <div class="row">
+      <div class="col-6">
+        <SearchInput
+          :initial-value="currentIdQuery"
+          :placeholder="'Mã phiếu phạt ...'"
+          @submit:query="handleSearch"
+        />
+      </div>
+      <div class="col-2 pt-1">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary btn-sm dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ PaymentStatus[currentStatusQuery].desc }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <div
+                class="dropdown-item"
+                v-for="(item, key) in PaymentStatus"
+                :key="key"
+                @click="handleSearch(null, item.name)"
+              >
+                {{ item.desc }}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="info-user mt-2">
+    <div class="mt-2">
       <PenaltyTicketList :penalty-tickets="penaltyTickets" />
     </div>
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-end mt-3">
       <Pagination
         :model-value="currentPage"
         :total-pages="totalPages"

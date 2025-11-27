@@ -19,8 +19,8 @@ export default {
 };
 </script>
 <template>
-  <table v-if="loanSlips" class="table table-hover">
-    <thead>
+  <table v-if="loanSlips" class="table table-hover table-display-data">
+    <thead class="table-head">
       <tr>
         <th class="col-3" scope="col">ID</th>
         <th scope="col">Ngày mượn</th>

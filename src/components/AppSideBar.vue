@@ -13,7 +13,7 @@ export default {
 </script>
 <template>
   <div
-    class="d-flex flex-column flex-shrink-0 p-2 bg-light fixed-sidebar"
+    class="d-flex flex-column flex-shrink-0 p-2 pt-0 bg-white fixed-sidebar"
     style="width: 250px"
   >
     <router-link
@@ -23,7 +23,7 @@ export default {
       <img :src="logo" class="logo" alt="" />
     </router-link>
     <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
+      <li class="nav-item mb-1">
         <router-link :to="routes.books" v-slot="{ href, navigate }" custom>
           <a
             :href="href"
@@ -40,7 +40,7 @@ export default {
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item mb-1">
         <router-link :to="routes.categories" v-slot="{ href, navigate }" custom>
           <a
             :href="href"
@@ -60,7 +60,7 @@ export default {
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item mb-1">
         <router-link :to="routes.authors" v-slot="{ href, navigate }" custom>
           <a
             :href="href"
@@ -79,7 +79,7 @@ export default {
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item mb-1">
         <router-link :to="routes.publishers" v-slot="{ href, navigate }" custom>
           <a
             :href="href"
@@ -99,7 +99,7 @@ export default {
           </a>
         </router-link>
       </li>
-      <li class="nav-item">
+      <li class="nav-item mb-1">
         <router-link
           :to="routes.configurations"
           v-slot="{ href, navigate }"
@@ -123,7 +123,7 @@ export default {
           </a>
         </router-link>
       </li>
-      <li class="nav-item">
+      <li class="nav-item mb-1">
         <router-link :to="routes.loanSlip" v-slot="{ href, navigate }" custom>
           <a
             :href="href"
@@ -141,7 +141,7 @@ export default {
           </a>
         </router-link>
       </li>
-      <li class="nav-item">
+      <li class="nav-item mb-1">
         <router-link
           :to="routes.penaltyTicket"
           v-slot="{ href, navigate }"
@@ -162,6 +162,24 @@ export default {
           >
             <i class="fa-solid fa-ticket"></i>
             Quản lý phiếu phạt
+          </a>
+        </router-link>
+      </li>
+      <li class="nav-item mb-1">
+        <router-link :to="routes.staffs" v-slot="{ href, navigate }" custom>
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.staffs) ? 'active' : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.staffs) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-clipboard-user"></i>
+            Quản lý nhân viên
           </a>
         </router-link>
       </li>
