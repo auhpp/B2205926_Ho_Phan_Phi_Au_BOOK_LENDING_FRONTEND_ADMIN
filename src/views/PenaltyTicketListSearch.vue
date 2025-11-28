@@ -58,8 +58,8 @@ export default {
     handleSearch(queryText, status) {
       this.$router.push({
         query: {
-          id: queryText || undefined,
-          paymentStatus: status || PaymentStatus.ALL.name,
+          id: queryText || this.currentIdQuery,
+          paymentStatus: status || this.currentStatusQuery,
           page: 1,
         },
       });

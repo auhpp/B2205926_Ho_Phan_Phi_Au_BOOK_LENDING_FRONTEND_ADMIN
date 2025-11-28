@@ -10,7 +10,8 @@ const routes = {
     configurations: "/configurations",
     loanSlip: "/loanSlips",
     penaltyTicket: "/penaltyTickets",
-    staffs: "/staffs"
+    staffs: "/staffs",
+    readers: "/readers"
 }
 
 export default routes;

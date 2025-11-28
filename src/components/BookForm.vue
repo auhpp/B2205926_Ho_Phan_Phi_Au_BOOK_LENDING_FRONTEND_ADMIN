@@ -14,7 +14,7 @@ export default {
     VueMultiselect,
     ErrorMessage,
   },
-  emits: ["submit:book", "delete:book"],
+  emits: ["submit:book", "delete:book", "update:active"],
   props: {
     book: { type: Object, required: true },
   },
@@ -67,6 +67,7 @@ export default {
   },
   methods: {
     submitBook(values) {
+      console.log("submit")
       const categoryIds = values.categories.map((e) => e._id);
       const authorIds = values.authors.map((e) => e._id);
       values.categoryIds = categoryIds;
@@ -115,6 +116,10 @@ export default {
       }
       this.fileImages.splice(index, 1);
     },
+
+    updateActiveBook(book) {
+      this.$emit("update:active", book);
+    },
   },
   mounted() {
     this.getAllCategoy();
@@ -139,15 +144,19 @@ export default {
         @click="this.$router.back()"
       ></i>
       <template v-if="isEditMode">
-        <div class="col-2 text-end">
-          <button type="submit" class="col me-1 btn btn-success">
+        <div class="col-4 text-end">
+          <button
+            type="button"
+            class="col me-1 btn btn-warning"
+            @click="updateActiveBook(book)"
+          >
+            <i v-if="!book.active" class="fa-solid fa-eye" title="Hiển thị"></i>
+            <i v-else class="fa-solid fa-eye-slash" title="Ẩn đi"></i>
+          </button>
+          <button type="  " class="col me-1 btn btn-success">
             Cập nhật
           </button>
-          <button
-            @click="deleteBook"
-            type="button"
-            class="me-1 btn btn-danger"
-          >
+          <button @click="deleteBook" type="button" class="me-1 btn btn-danger">
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
@@ -239,7 +248,6 @@ export default {
             @blur="handleBlur"
             :options="publishers"
             :multiple="false"
-          
             label="name"
             track-by="_id"
             placeholder="Chọn nhà xuất bản"

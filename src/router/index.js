@@ -10,6 +10,7 @@ import LoanSlipListSearch from "@/views/LoanSlipListSearch.vue";
 import PenaltyTicketDetail from "@/views/PenaltyTicketDetail.vue";
 import PenaltyTicketListSearch from "@/views/PenaltyTicketListSearch.vue";
 import PublisherListSearch from "@/views/PublisherListSearch.vue";
+import ReaderListSearch from "@/views/ReaderListSearch.vue";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
 import StaffListSearch from "@/views/StaffListSearch.vue";
@@ -102,6 +103,11 @@ const routes = [
                 path: routePaths.staffs,
                 name: "staff",
                 component: StaffListSearch,
+            },
+            {
+                path: routePaths.readers,
+                name: "reader",
+                component: ReaderListSearch,
             },
         ]
     },

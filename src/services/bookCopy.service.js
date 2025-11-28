@@ -10,8 +10,10 @@ class BookCopyService {
     }
 
     async create(data) {
+        if (data.id) {
+            return (await this.api.put("/" + data.id, data)).data;
+        }
         return (await this.api.post("/", data)).data;
-
     }
 
     async findById(id) {

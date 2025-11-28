@@ -5,7 +5,7 @@ export default {
   props: {
     bookCopies: { type: Array, default: [] },
   },
-  emits: ["delete:bookCopy"],
+  emits: ["delete:bookCopy", "update:bookCopy"],
   data() {
     return {
       BookCopyStatus: BookCopyStatus,
@@ -14,6 +14,20 @@ export default {
   methods: {
     deleteBookCopy(id) {
       this.$emit("delete:bookCopy", id);
+    },
+    updateBookCopy(status, id) {
+      this.$emit("update:bookCopy", status, id);
+    },
+  },
+  computed: {
+    filteredStatus() {
+      const hiddenStatuses = ["approved", "borrowed", "pending"];
+
+      return Object.fromEntries(
+        Object.entries(this.BookCopyStatus).filter(
+          ([key, value]) => !hiddenStatuses.includes(key)
+        )
+      );
     },
   },
 };
@@ -42,9 +56,43 @@ export default {
           {{ bookCopy.barCode }}
         </td>
         <td>
-          <span :class="'badge text-bg-' + BookCopyStatus[bookCopy.status].color">
-            {{ BookCopyStatus[bookCopy.status].desc }}
-          </span>
+          <div class="dropdown">
+            <button
+              :class="
+                'btn btn-sm btn-' +
+                BookCopyStatus[bookCopy.status].color +
+                (bookCopy.status != BookCopyStatus.approved.name &&
+                bookCopy.status != BookCopyStatus.borrowed.name &&
+                bookCopy.status != BookCopyStatus.pending.name
+                  ? ' dropdown-toggle'
+                  : '')
+              "
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ BookCopyStatus[bookCopy.status].desc }}
+            </button>
+            <ul
+              class="dropdown-menu"
+              aria-labelledby="dropdownMenuButton1"
+              v-if="
+                bookCopy.status != BookCopyStatus.approved.name &&
+                bookCopy.status != BookCopyStatus.borrowed.name &&
+                bookCopy.status != BookCopyStatus.pending.name
+              "
+            >
+              <li
+                class="dropdown-item"
+                v-for="(item, key) in filteredStatus"
+                :key="key"
+                @click="updateBookCopy(item.name, bookCopy._id)"
+              >
+                {{ item.desc }}
+              </li>
+            </ul>
+          </div>
         </td>
         <td class="text-center">
           <button

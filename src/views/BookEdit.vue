@@ -89,20 +89,26 @@ export default {
         console.log(error);
       }
     },
+    
     async deleteBook() {
       if (confirm("Bạn muốn xóa sách này?")) {
         try {
+          this.isLoading = true;
           await bookService.delete(this.book._id);
           alert("Sách được xóa thành công.");
           this.$router.push({ name: "books" });
         } catch (error) {
           alert("Sách đã được đưa vào sử dụng không thể xóa");
+        } finally {
+          this.isLoading = false;
         }
       }
     },
+
     async deleteBookCopy(id) {
       if (confirm("Bạn muốn xóa bản sao sách này?")) {
         try {
+          this.isLoading = true;
           await bookCopyService.delete(id);
           await this.getBookCopies(this.id);
           alert("Bản sao sách được xóa thành công.");
@@ -111,7 +117,37 @@ export default {
             "Một sách phải có ít nhất 1 bản sao hoặc sách đã được đưa vào sử dụng không xóa được"
           );
           console.log(error);
+        } finally {
+          this.isLoading = false;
         }
+      }
+    },
+
+    async updateBookCopy(status, id) {
+      try {
+        await bookCopyService.create({
+          id: id,
+          status: status,
+        });
+        await this.getBookCopies(this.id);
+        alert("Bản sao sách được cập nhật thành công.");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async updateActiveBook(book) {
+      try {
+        this.isLoading = true;
+        await bookService.update({
+          _id: book._id,
+          active: !book.active,
+        });
+        await this.getBook(this.id);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
   },
@@ -148,17 +184,22 @@ export default {
       :book="book"
       @submit:book="createBook"
       @delete:book="deleteBook"
+      @update:active="updateActiveBook"
     />
     <div v-else class="p-4">Đang tải dữ liệu sách...</div>
     <div v-if="book && book._id" class="book-copy ps-4 pe-4">
       <div class="row mb-2">
         <h4 class="col-6">Các bản sao của sách này</h4>
-        <BookCopyAdd class="col-6 text-end" @submit:book-copy="createBookCopy" />
+        <BookCopyAdd
+          class="col-6 text-end"
+          @submit:book-copy="createBookCopy"
+        />
       </div>
       <BookCopyList
         v-if="bookCopies"
         :book-copies="bookCopies"
         @delete:book-copy="deleteBookCopy"
+        @update:book-copy="updateBookCopy"
       />
       <div v-else class="p-4">Đang tải dữ liệu bản sao sách...</div>
       <div class="d-flex justify-content-end mt-3">

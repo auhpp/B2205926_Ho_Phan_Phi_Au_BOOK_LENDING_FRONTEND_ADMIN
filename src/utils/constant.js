@@ -154,10 +154,16 @@ export const PaymentStatus = {
 export const Status = {
     ACTIVE: {
         desc: "Hoạt động",
-        color: "success"
+        color: "success",
+        value: true
     },
     IN_ACTIVE: {
         desc: "Ngừng hoạt động",
-        color: "danger"
+        color: "danger",
+        value: false
+    },
+    ALL: {
+        name: "ALL",
+        desc: "Tất cả trạng thái"
     }
 }

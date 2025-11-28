@@ -183,6 +183,24 @@ export default {
           </a>
         </router-link>
       </li>
+      <li class="nav-item mb-1">
+        <router-link :to="routes.readers" v-slot="{ href, navigate }" custom>
+          <a
+            :href="href"
+            @click="navigate"
+            :class="[
+              'nav-link',
+              $route.path.startsWith(routes.readers) ? 'active' : 'text-black',
+            ]"
+            :aria-current="
+              $route.path.startsWith(routes.readers) ? 'page' : null
+            "
+          >
+            <i class="fa-solid fa-clipboard-user"></i>
+            Quản lý độc giả
+          </a>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>

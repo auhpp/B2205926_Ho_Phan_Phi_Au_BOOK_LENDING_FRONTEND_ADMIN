@@ -9,8 +9,8 @@ class StaffService {
         return (await this.api.get("/all")).data;
     }
 
-    async findPagination({ page, limit, userName }) {
-        return (await this.api.get("/", { params: { page, limit, userName } })).data;
+    async findPagination({ page, limit, userName, active }) {
+        return (await this.api.get("/", { params: { page, limit, userName, active } })).data;
     }
 
     async create(data) {

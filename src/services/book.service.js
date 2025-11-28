@@ -5,8 +5,8 @@ class BookService {
         this.api = createApiClient(baseUrl);
     }
 
-    async findAll({ page, limit, name }) {
-        return (await this.api.get("/", { params: { page, limit, name } })).data;
+    async findAll({ page, limit, name, active }) {
+        return (await this.api.get("/", { params: { page, limit, name, active } })).data;
     }
 
     async create(dataFromForm) {
@@ -55,6 +55,9 @@ class BookService {
         }
     }
 
+    async update(data) {
+        return (await this.api.put("/" + data._id, data)).data;
+    }
 
 
     async findById(id) {

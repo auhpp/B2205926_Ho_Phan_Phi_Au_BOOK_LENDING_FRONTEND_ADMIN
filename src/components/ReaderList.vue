@@ -4,19 +4,20 @@ import defaultAvatar from "./../assets/images/default_avatar.png";
 
 export default {
   props: {
-    staffs: { type: Array, default: [] },
+    readers: { type: Array, default: [] },
   },
-  emits: ["update:staff"],
+
+  emits: ["update:reader"],
   data() {
     return {
-      Status: Status,
       defaultAvatar,
+      Status: Status,
     };
   },
   methods: {
-    updateStaff(active, staff) {
-      staff.active = active;
-      this.$emit("update:staff", staff);
+    updateReader(active, reader) {
+      reader.active = active;
+      this.$emit("update:reader", reader);
     },
   },
 };
@@ -28,20 +29,21 @@ export default {
         <th class="col-3" scope="col">ID</th>
         <th scope="col" class="col-1">Avatar</th>
         <th scope="col" class="col-6">Username</th>
-        <!-- <th scope="col">Email</th> -->
+        <th scope="col">Email</th>
+        <th scope="col">SĐT</th>
         <th scope="col">Trạng thái</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="staff in staffs" :key="staff._id" class="book-item">
+      <tr v-for="reader in readers" :key="reader._id" class="book-item">
         <td>
-          {{ staff._id }}
+          {{ reader._id }}
         </td>
         <td>
           <img
             :src="
-              staff.avatar != null && staff.avatar != ''
-                ? staff.avatar
+              reader.avatar != null && reader.avatar != ''
+                ? reader.avatar
                 : defaultAvatar
             "
             alt="mdo"
@@ -51,33 +53,36 @@ export default {
           />
         </td>
         <td>
-          {{ staff.userName }}
+          {{ reader.userName }}
         </td>
-        <!-- <td>
-            {{ staff.email }}
-          </td> -->
+        <td>
+          {{ reader.email }}
+        </td>
+        <td>
+          {{ reader.phoneNumber }}
+        </td>
         <td>
           <div class="dropdown">
             <button
               :class="
                 'btn btn-sm dropdown-toggle btn-' +
-                (staff.active ? Status.ACTIVE.color : Status.IN_ACTIVE.color)
+                (reader.active ? Status.ACTIVE.color : Status.IN_ACTIVE.color)
               "
               type="button"
               id="dropdownMenuButton1"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {{ staff.active ? Status.ACTIVE.desc : Status.IN_ACTIVE.desc }}
+              {{ reader.active ? Status.ACTIVE.desc : Status.IN_ACTIVE.desc }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li>
-                <div class="dropdown-item" @click="updateStaff(true, staff)">
+                <div class="dropdown-item" @click="updateReader(true, reader)">
                   Hoạt động
                 </div>
               </li>
               <li>
-                <div class="dropdown-item" @click="updateStaff(false, staff)">
+                <div class="dropdown-item" @click="updateReader(false, reader)">
                   Ngừng hoạt động
                 </div>
               </li>
