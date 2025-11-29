@@ -39,17 +39,15 @@ export default {
         <td>
           {{ reader._id }}
         </td>
-        <td>
+        <td class="text-center">
           <img
             :src="
               reader.avatar != null && reader.avatar != ''
                 ? reader.avatar
                 : defaultAvatar
             "
-            alt="mdo"
-            width="32"
             height="32"
-            class="rounded-circle me-2"
+            class="rounded-circle-avatar rounded-circle me-1"
           />
         </td>
         <td>

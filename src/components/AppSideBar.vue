@@ -94,7 +94,7 @@ export default {
               $route.path.startsWith(routes.publishers) ? 'page' : null
             "
           >
-            <i class="fa-solid fa-user-secret"></i>
+            <i class="fa-solid fa-building"></i>
             Quản lý nhà xuất bản
           </a>
         </router-link>
@@ -196,7 +196,7 @@ export default {
               $route.path.startsWith(routes.readers) ? 'page' : null
             "
           >
-            <i class="fa-solid fa-clipboard-user"></i>
+            <i class="fa-solid fa-book-open-reader"></i>
             Quản lý độc giả
           </a>
         </router-link>

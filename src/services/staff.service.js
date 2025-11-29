@@ -20,6 +20,19 @@ class StaffService {
         return (await this.api.post("/", data)).data;
     }
 
+    async update(formData, id) {
+        return (await this.api.put("/" + id, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })).data;
+    }
+
+    async updateStatus(data) {
+        if (data._id) {
+            return (await this.api.put("/admin/" + data._id, data)).data;
+        }
+    }
 
 }
 

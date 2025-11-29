@@ -61,7 +61,7 @@ export default {
     },
     async createStaff(staff) {
       try {
-        await staffService.create(staff);
+        await staffService.updateStatus(staff);
         await this.retrieveStaff();
         if (staff._id) {
           alert("Nhân viên được cập nhật thành công.");

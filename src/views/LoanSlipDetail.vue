@@ -208,17 +208,14 @@ export default {
       <h5>Thông tin người mượn</h5>
       <hr />
       <div class="row">
-        <div class="col-1 text-center">
+        <div class="col-1 d-flex justify-content-center">
           <img
             :src="
               loanSlip.reader.avatar != null && loanSlip.reader.avatar != ''
                 ? loanSlip.reader.avatar
                 : defaultAvatar
             "
-            alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle me-2"
+            class="rounded-circle rounded-circle-avatar-large"
           />
         </div>
         <div class="col">
@@ -272,17 +269,14 @@ export default {
       <h5>Thông tin nhân viên</h5>
       <hr />
       <div class="row">
-        <div class="col-1 text-center">
+        <div class="col-1 justify-content-center d-flex">
           <img
             :src="
               selectedStaff.avatar != null && selectedStaff.avatar != ''
                 ? selectedStaff.avatar
                 : defaultAvatar
             "
-            alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle me-2"
+            class="rounded-circle rounded-circle-avatar-large"
           />
         </div>
         <div class="col">

@@ -9,8 +9,10 @@ import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
 import LoanSlipListSearch from "@/views/LoanSlipListSearch.vue";
 import PenaltyTicketDetail from "@/views/PenaltyTicketDetail.vue";
 import PenaltyTicketListSearch from "@/views/PenaltyTicketListSearch.vue";
+import Profile from "@/views/Profile.vue";
 import PublisherListSearch from "@/views/PublisherListSearch.vue";
 import ReaderListSearch from "@/views/ReaderListSearch.vue";
+import ResetPassword from "@/views/ResetPassword.vue";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
 import StaffListSearch from "@/views/StaffListSearch.vue";
@@ -109,6 +111,11 @@ const routes = [
                 name: "reader",
                 component: ReaderListSearch,
             },
+            {
+                path: routePaths.profile,
+                name: "profile",
+                component: Profile,
+            },
         ]
     },
     {
@@ -122,7 +129,14 @@ const routes = [
         name: "signin",
         component: SignIn,
         beforeEnter: ifLoggedInRedirectToHome
+    },
+    {
+        path: routePaths.password + "/reset",
+        name: "password.reset",
+        component: ResetPassword,
+        beforeEnter: ifLoggedInRedirectToHome
     }
+
 ];
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

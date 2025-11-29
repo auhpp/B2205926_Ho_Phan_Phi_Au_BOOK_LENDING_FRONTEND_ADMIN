@@ -68,7 +68,7 @@ export default {
         this.isLoading = true;
         await bookService.create(data);
         alert("Sách được tạo thành công.");
-        this.$router.push({ name: "books" });
+        this.$router.back();
       } catch (error) {
         console.log(error);
       } finally {
@@ -89,14 +89,14 @@ export default {
         console.log(error);
       }
     },
-    
+
     async deleteBook() {
       if (confirm("Bạn muốn xóa sách này?")) {
         try {
           this.isLoading = true;
           await bookService.delete(this.book._id);
           alert("Sách được xóa thành công.");
-          this.$router.push({ name: "books" });
+          this.$router.back();
         } catch (error) {
           alert("Sách đã được đưa vào sử dụng không thể xóa");
         } finally {

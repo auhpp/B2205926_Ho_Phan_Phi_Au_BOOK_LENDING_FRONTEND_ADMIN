@@ -45,9 +45,7 @@ export default {
                 : defaultAvatar
             "
             alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle me-2"
+            class="rounded-circle-avatar rounded-circle me-1"
           />
         </td>
         <td>

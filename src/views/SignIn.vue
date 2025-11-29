@@ -24,6 +24,7 @@ export default {
       password: "",
       loginFormSchema,
       errorLogin: "",
+      isShowPassword: false,
     };
   },
   methods: {
@@ -55,7 +56,11 @@ export default {
     <div class="row w-100">
       <main class="form-signin col-4 offset-4 text-center">
         <Form @submit="signin" :validation-schema="loginFormSchema">
-          <img class="" :src="logo" alt="" width="120" height="120" />
+          <div class="d-flex justify-content-center">
+            <div class="logo w-100">
+              <img class="" :src="logo" alt="" />
+            </div>
+          </div>
           <h1 class="h3 mb-3 fw-normal">Đăng nhập</h1>
           <div v-if="errorLogin" class="alert alert-danger" role="alert">
             <span> {{ errorLogin }}</span>
@@ -74,7 +79,7 @@ export default {
           </div>
           <div class="form-floating mt-2 text-start">
             <Field
-              type="password"
+              :type="isShowPassword ? 'text' : 'password'"
               class="form-control"
               id="password"
               placeholder="Password"
@@ -84,20 +89,27 @@ export default {
             <label for="password">Password</label>
             <ErrorMessage name="password" class="text-danger" />
           </div>
-          <div class="row justify-content-between pt-2 pb-1">
-            <!-- <div class="login-text col-5 text-start">
-              <router-link to="/signin" class="login-nav primary-text"
-                >Quên mật khẩu?</router-link
-              >
-            </div> -->
-            <!-- <div class="login-text col-7">
-              <span class="text-secondary">Chưa có tài khoản? </span>
-              <router-link :to="routes.signup" class="login-nav primary-text"
-                >Đăng ký</router-link
-              >
-            </div> -->
+          <div class="form-check pt-2 pb-1">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              v-model="isShowPassword"
+              id="flexCheckDefault"
+            />
+            <label
+              class="form-check-label d-flex justify-content-start"
+              for="flexCheckDefault"
+            >
+              Hiển thị mật khẩu
+            </label>
           </div>
-
+          <div class="login-text col-5 text-start">
+            <router-link
+              :to="routes.password + '/reset'"
+              class="login-nav text-primary"
+              >Quên mật khẩu?</router-link
+            >
+          </div>
           <button class="w-100 btn btn-lg btn-primary mt-2">Đăng nhập</button>
         </Form>
       </main>

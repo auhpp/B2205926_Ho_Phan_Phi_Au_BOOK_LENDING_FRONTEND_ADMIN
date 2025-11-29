@@ -167,3 +167,12 @@ export const Status = {
         desc: "Tất cả trạng thái"
     }
 }
+
+export const Role = {
+    ADMIN: {
+        name: "admin",
+    },
+    USER: {
+        name: "user",
+    },
+}

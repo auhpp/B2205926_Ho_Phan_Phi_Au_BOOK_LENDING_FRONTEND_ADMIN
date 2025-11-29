@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     submitBook(values) {
-      console.log("submit")
+      console.log("submit");
       const categoryIds = values.categories.map((e) => e._id);
       const authorIds = values.authors.map((e) => e._id);
       values.categoryIds = categoryIds;
@@ -79,7 +79,11 @@ export default {
       };
       if (this.isEditMode) {
         formData.id = this.book._id;
-        formData.images = this.book.images;
+        console.log("book image length", formData.images);
+        if (this.book.images.length == 0 && this.fileImages.length == 0) {
+          alert("Phải có ảnh của sách");
+          return;
+        } else formData.images = this.book.images;
       }
       console.log("submit:", formData);
       this.$emit("submit:book", formData);
@@ -153,9 +157,7 @@ export default {
             <i v-if="!book.active" class="fa-solid fa-eye" title="Hiển thị"></i>
             <i v-else class="fa-solid fa-eye-slash" title="Ẩn đi"></i>
           </button>
-          <button type="  " class="col me-1 btn btn-success">
-            Cập nhật
-          </button>
+          <button type="  " class="col me-1 btn btn-success">Cập nhật</button>
           <button @click="deleteBook" type="button" class="me-1 btn btn-danger">
             <i class="fa-solid fa-trash"></i>
           </button>

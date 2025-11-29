@@ -1,11 +1,13 @@
 <script>
 import authService from "@/services/auth.service";
 import defaultAvatar from "./../assets/images/default_avatar.png";
+import routes from "@/config/routes";
 export default {
   data() {
     return {
       user: null,
       defaultAvatar,
+      routes: routes,
     };
   },
   methods: {
@@ -37,20 +39,19 @@ export default {
           style="cursor: pointer"
         >
           <img
-            :src="
-              user.avatar != null && user.avatar != ''
-                ? user.avatar
-                : defaultAvatar
-            "
+            :src="user.avatar ? user.avatar : defaultAvatar"
             alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle me-2"
+            class="rounded-circle-avatar rounded-circle me-1"
+            style="object-fit: cover"
           />
           <div>{{ user.userName }}</div>
         </div>
         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-          <li><a class="dropdown-item" href="#">Tài khoản của tôi</a></li>
+          <li>
+            <router-link class="dropdown-item" :to="routes.profile"
+              >Tài khoản của tôi</router-link
+            >
+          </li>
           <li><hr class="dropdown-divider" /></li>
           <li>
             <div class="dropdown-item" style="cursor: pointer" @click="signout">

@@ -110,7 +110,7 @@ export default {
       <h5>Thông tin người mượn</h5>
       <hr />
       <div class="row">
-        <div class="col-1 text-center">
+        <div class="col-1 d-flex justify-content-center">
           <img
             :src="
               penaltyTicketDetail.reader.avatar != null &&
@@ -118,10 +118,7 @@ export default {
                 ? penaltyTicketDetail.reader.avatar
                 : defaultAvatar
             "
-            alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle me-2"
+            class="rounded-circle rounded-circle-avatar-large"
           />
         </div>
         <div class="col">
@@ -203,7 +200,7 @@ export default {
       <h5>Thông tin nhân viên</h5>
       <hr />
       <div class="row">
-        <div class="col-1 text-center">
+        <div class="col-1 d-flex justify-content-center">
           <img
             :src="
               penaltyTicketDetail.staff.avatar != null &&
@@ -211,10 +208,7 @@ export default {
                 ? penaltyTicketDetail.staff.avatar
                 : defaultAvatar
             "
-            alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle me-2"
+            class="rounded-circle rounded-circle-avatar-large"
           />
         </div>
         <div class="col">
@@ -254,9 +248,7 @@ export default {
                 height="40"
               />
             </td>
-            <td>
-              {{ VND.format(penaltyTicketDetail.book.price) }} đ
-            </td>
+            <td>{{ VND.format(penaltyTicketDetail.book.price) }} đ</td>
           </tr>
         </tbody>
       </table>

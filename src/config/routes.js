@@ -11,7 +11,11 @@ const routes = {
     loanSlip: "/loanSlips",
     penaltyTicket: "/penaltyTickets",
     staffs: "/staffs",
-    readers: "/readers"
+    readers: "/readers",
+    password: "/password",
+    profile: "/profile",
+
+
 }
 
 export default routes;
