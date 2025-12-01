@@ -4,6 +4,7 @@ import AuthorListSearch from "@/views/AuthorListSearch.vue";
 import BookEdit from "@/views/BookEdit.vue";
 import BookListSearch from "@/views/BookListSearch.vue";
 import CategoryListSearch from "@/views/CategoryListSearch.vue";
+import ChangePassword from "@/views/ChangePassword.vue";
 import ConfigurationListSearch from "@/views/ConfigurationListSearch.vue";
 import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
 import LoanSlipListSearch from "@/views/LoanSlipListSearch.vue";
@@ -115,6 +116,11 @@ const routes = [
                 path: routePaths.profile,
                 name: "profile",
                 component: Profile,
+            },
+            {
+                path: routePaths.profile + "/changePassword",
+                name: "profile.changePassword",
+                component: ChangePassword,
             },
         ]
     },

@@ -28,7 +28,8 @@ export default {
         <th class="col-3" scope="col">ID</th>
         <th scope="col" class="col-1">Avatar</th>
         <th scope="col" class="col-6">Username</th>
-        <!-- <th scope="col">Email</th> -->
+        <th scope="col" class="col-6">SĐT</th>
+        <th scope="col">Email</th>
         <th scope="col">Trạng thái</th>
       </tr>
     </thead>
@@ -51,9 +52,12 @@ export default {
         <td>
           {{ staff.userName }}
         </td>
-        <!-- <td>
-            {{ staff.email }}
-          </td> -->
+        <td>
+          {{ staff.phoneNumber }}
+        </td>
+        <td>
+          {{ staff.email }}
+        </td>
         <td>
           <div class="dropdown">
             <button

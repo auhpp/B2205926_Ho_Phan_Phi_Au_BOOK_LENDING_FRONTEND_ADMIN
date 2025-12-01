@@ -23,8 +23,8 @@ export default {
     currentPage() {
       return parseInt(this.$route.query.page) || 1;
     },
-    currentIdQuery() {
-      return this.$route.query.id || "";
+    currentKeywordQuery() {
+      return this.$route.query.keyword || "";
     },
     currentStatusQuery() {
       return this.$route.query.status || LoanSlipStatus.all.name;
@@ -42,7 +42,7 @@ export default {
         const result = await loanSlipService.findAll({
           page: this.currentPage,
           limit: this.limit,
-          id: this.currentIdQuery,
+          keyword: this.currentKeywordQuery,
           status:
             this.currentStatusQuery == LoanSlipStatus.all.name
               ? ""
@@ -57,7 +57,10 @@ export default {
     handleSearch(queryText, status) {
       this.$router.push({
         query: {
-          id: queryText || undefined,
+          keyword:
+            queryText !== null && queryText !== undefined
+              ? queryText
+              : this.currentKeywordQuery,
           status: status || LoanSlipStatus.all.name,
           page: 1,
         },
@@ -80,8 +83,8 @@ export default {
     <div class="row">
       <div class="col-6">
         <SearchInput
-          :initial-value="currentIdQuery"
-          :placeholder="'Mã phiếu mượn ...'"
+          :initial-value="currentKeywordQuery"
+          :placeholder="'Mã phiếu mượn, SĐT đọc giả ...'"
           @submit:query="handleSearch"
         />
       </div>

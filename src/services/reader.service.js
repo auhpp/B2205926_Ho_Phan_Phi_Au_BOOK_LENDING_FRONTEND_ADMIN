@@ -6,8 +6,8 @@ class ReaderService {
     }
 
 
-    async findPagination({ page, limit, userName, active }) {
-        return (await this.api.get("/", { params: { page, limit, userName, active } })).data;
+    async findPagination({ page, limit, keyword, active }) {
+        return (await this.api.get("/", { params: { page, limit, keyword, active } })).data;
     }
 
     async updateStatus(data) {

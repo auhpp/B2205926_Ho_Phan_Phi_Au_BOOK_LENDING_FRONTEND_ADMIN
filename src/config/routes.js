@@ -14,8 +14,6 @@ const routes = {
     readers: "/readers",
     password: "/password",
     profile: "/profile",
-
-
 }
 
 export default routes;

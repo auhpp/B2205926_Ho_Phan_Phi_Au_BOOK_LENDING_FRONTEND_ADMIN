@@ -23,8 +23,8 @@ export default {
     currentPage() {
       return parseInt(this.$route.query.page) || 1;
     },
-    currentIdQuery() {
-      return this.$route.query.id || "";
+    currentKeywordQuery() {
+      return this.$route.query.keyword || "";
     },
     currentStatusQuery() {
       return this.$route.query.paymentStatus || PaymentStatus.ALL.name;
@@ -42,7 +42,7 @@ export default {
         const result = await penaltyTicketService.findAll({
           page: this.currentPage,
           limit: this.limit,
-          id: this.currentIdQuery,
+          keyword: this.currentKeywordQuery,
           paymentStatus:
             this.currentStatusQuery == PaymentStatus.ALL.name
               ? ""
@@ -51,6 +51,7 @@ export default {
         this.penaltyTickets = result.result.data;
         this.totalPages = result.result.totalPages;
       } catch (error) {
+        alert("Nhập đúng định dạnh id");
         console.log(error);
       }
     },
@@ -58,7 +59,10 @@ export default {
     handleSearch(queryText, status) {
       this.$router.push({
         query: {
-          id: queryText || this.currentIdQuery,
+          keyword:
+            queryText !== null && queryText !== undefined
+              ? queryText
+              : this.currentKeywordQuery,
           paymentStatus: status || this.currentStatusQuery,
           page: 1,
         },
@@ -81,8 +85,8 @@ export default {
     <div class="row">
       <div class="col-6">
         <SearchInput
-          :initial-value="currentIdQuery"
-          :placeholder="'Mã phiếu phạt ...'"
+          :initial-value="currentKeywordQuery"
+          :placeholder="'Mã phiếu phạt, SĐT đọc giả ...'"
           @submit:query="handleSearch"
         />
       </div>

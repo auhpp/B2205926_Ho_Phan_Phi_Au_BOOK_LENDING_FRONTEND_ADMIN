@@ -30,8 +30,9 @@ export default {
     <thead class="table-head">
       <tr>
         <th class="col-3" scope="col">ID</th>
+        <th scope="col">Tên đọc giả</th>
+        <th scope="col">SĐT đọc giả</th>
         <th scope="col">Ngày tạo</th>
-        <th scope="col">Người mượn</th>
         <th scope="col">Lý do</th>
         <th scope="col">Tổng tiền</th>
         <th scope="col" class="text-center">Trạng thái thánh toán</th>
@@ -53,11 +54,15 @@ export default {
           {{ penaltyTicket._id }}
         </td>
         <td>
-          {{ formatDateTime(penaltyTicket.createdAt) }}
-        </td>
-        <td>
           {{ penaltyTicket.reader.fullName }}
         </td>
+        <td>
+          {{ penaltyTicket.reader.phoneNumber }}
+        </td>
+        <td>
+          {{ formatDateTime(penaltyTicket.createdAt) }}
+        </td>
+
         <td>
           {{ LoanDetailStatus[penaltyTicket.typePenalty].desc }}
         </td>

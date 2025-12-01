@@ -87,7 +87,10 @@ export default {
         </div>
         <div class="col"></div>
         <div class="col-2">
-          <button class="btn btn-warning">
+          <button
+            class="btn btn-warning"
+            @click="this.$router.push({ name: 'profile.changePassword' })"
+          >
             <i class="fa-solid fa-user-lock me-2"></i>Đổi mật khẩu
           </button>
         </div>

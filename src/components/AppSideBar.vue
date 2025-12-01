@@ -197,7 +197,7 @@ export default {
             "
           >
             <i class="fa-solid fa-book-open-reader"></i>
-            Quản lý độc giả
+            Quản lý đọc giả
           </a>
         </router-link>
       </li>

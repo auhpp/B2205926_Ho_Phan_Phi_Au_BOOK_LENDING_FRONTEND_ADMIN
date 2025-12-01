@@ -12,8 +12,8 @@ class PenaltyTicketService {
         return (await this.api.post("/", data)).data;
     }
 
-    async findAll({ page, limit, id, paymentStatus }) {
-        return (await this.api.get("/", { params: { page, limit, id, paymentStatus } })).data;
+    async findAll({ page, limit, keyword, paymentStatus }) {
+        return (await this.api.get("/", { params: { page, limit, keyword, paymentStatus } })).data;
     }
 
     async findById(id) {

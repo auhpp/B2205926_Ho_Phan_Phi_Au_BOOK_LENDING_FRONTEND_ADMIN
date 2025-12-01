@@ -23,8 +23,10 @@ export default {
     <thead class="table-head">
       <tr>
         <th class="col-3" scope="col">ID</th>
+        <th scope="col">Tên đọc giả</th>
+        <th scope="col">SĐT đọc giả</th>
         <th scope="col">Ngày mượn</th>
-        <th scope="col">Ngày trả</th>
+        <th scope="col">Hạn trả</th>
         <th scope="col" class="text-center">Trạng thái</th>
       </tr>
     </thead>
@@ -43,12 +45,16 @@ export default {
         <td>
           {{ loanSlip._id }}
         </td>
+        <td scope="col">{{ loanSlip.reader.fullName }}</td>
+
+        <td scope="col">{{ loanSlip.reader.phoneNumber }}</td>
         <td>
           {{ formatDateTime(loanSlip.borrowedDate) }}
         </td>
         <td>
           {{ formatDate(loanSlip.returnDate) }}
         </td>
+
         <td class="text-center">
           <span
             :class="'badge text-bg-' + LoanSlipStatus[loanSlip.status].color"

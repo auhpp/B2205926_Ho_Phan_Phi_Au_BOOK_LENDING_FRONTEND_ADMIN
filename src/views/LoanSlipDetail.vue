@@ -231,6 +231,16 @@ export default {
       <div class="row g-3 align-items-center">
         <div class="col-2">
           <label for="inputNote" class="col-form-label fw-bold"
+            >Mã phiếu mượn:</label
+          >
+        </div>
+        <div class="col-sm-8 col-lg-10">
+          {{ loanSlip._id }}
+        </div>
+      </div>
+      <div class="row g-3 align-items-center">
+        <div class="col-2">
+          <label for="inputNote" class="col-form-label fw-bold"
             >Ngày mượn:</label
           >
         </div>

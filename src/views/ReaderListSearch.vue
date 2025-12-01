@@ -25,8 +25,8 @@ export default {
     currentPage() {
       return parseInt(this.$route.query.page) || 1;
     },
-    currentName() {
-      return this.$route.query.userName || "";
+    currentKeyword() {
+      return this.$route.query.keyword || "";
     },
     currentStatusQuery() {
       return this.$route.query.status || Status.ALL.name;
@@ -44,7 +44,7 @@ export default {
         const result = await readerService.findPagination({
           page: this.currentPage,
           limit: this.limit,
-          userName: this.currentName.trim(),
+          keyword: this.currentKeyword.trim(),
           active:
             this.currentStatusQuery == Status.ALL.name
               ? null
@@ -56,6 +56,7 @@ export default {
         console.log(error);
       }
     },
+
     async updateStatus(reader) {
       try {
         await readerService.updateStatus(reader);
@@ -70,7 +71,10 @@ export default {
     handleSearch(queryText, status) {
       this.$router.push({
         query: {
-          userName: queryText || this.currentName,
+          keyword:
+            queryText !== null && queryText !== undefined
+              ? queryText
+              : this.currentKeyword,
           status: status || this.currentStatusQuery,
           page: 1,
         },
@@ -93,8 +97,8 @@ export default {
     <div class="row">
       <div class="col-4">
         <SearchInput
-          :initial-value="currentName"
-          :placeholder="'UserName nhân viên ...'"
+          :initial-value="currentKeyword"
+          :placeholder="'UserName, SĐT đọc giả ...'"
           @submit:query="handleSearch"
         />
       </div>
