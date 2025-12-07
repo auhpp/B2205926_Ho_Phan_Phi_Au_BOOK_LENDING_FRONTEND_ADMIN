@@ -40,17 +40,19 @@ export const LoanSlipStatus = {
     pending: {
         name: "pending",
         desc: "Chờ duyệt",
-        color: "primary"
+        color: "primary",
+        act: "Duyệt phiếu"
     },
     approved: {
         name: "approved",
         desc: "Đã duyệt",
-        color: "success"
+        color: "success",
+        act: "Xác nhận giao sách"
     },
     borrowed: {
         name: "borrowed",
         desc: "Đang mượn",
-        color: "secondary"
+        color: "secondary",
     },
     returned: {
         name: "returned",

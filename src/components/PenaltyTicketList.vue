@@ -29,9 +29,9 @@ export default {
   <table v-if="penaltyTickets" class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
-        <th scope="col">Tên đọc giả</th>
-        <th scope="col">SĐT đọc giả</th>
+        <th class="col-3" scope="col">Mã PP</th>
+        <th scope="col">Tên độc giả</th>
+        <th scope="col">SĐT độc giả</th>
         <th scope="col">Ngày tạo</th>
         <th scope="col">Lý do</th>
         <th scope="col">Tổng tiền</th>
@@ -51,7 +51,7 @@ export default {
         "
       >
         <td>
-          {{ penaltyTicket._id }}
+          {{ penaltyTicket.code }}
         </td>
         <td>
           {{ penaltyTicket.reader.fullName }}
@@ -64,7 +64,7 @@ export default {
         </td>
 
         <td>
-          {{ LoanDetailStatus[penaltyTicket.typePenalty].desc }}
+          {{ PenaltyTicketType[penaltyTicket.typePenalty].desc }}
         </td>
         <td>{{ VND.format(penaltyTicket.amount) }}đ</td>
         <td class="text-center">

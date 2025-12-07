@@ -23,6 +23,10 @@ class PenaltyTicketService {
     async delete(id) {
         return (await this.api.delete(`/${id}`)).data;
     }
+
+    async getStats() {
+        return (await this.api.get(`/stats`)).data;
+    }
 }
 
 export default new PenaltyTicketService();

@@ -36,6 +36,29 @@ export default {
       required: true,
     },
   },
+  computed: {
+    isOverdue() {
+      if (!this.loanSlip || this.loanSlip.returnedDate) return false;
+      if (
+        this.loanSlip.status === LoanSlipStatus.rejected.name ||
+        this.loanSlip.status === LoanSlipStatus.returned.name ||
+        this.loanSlip.status === LoanSlipStatus.pending.name ||
+        this.loanSlip.status === LoanSlipStatus.approved.name
+      ) {
+        return false;
+      }
+      const returnDate = new Date(this.loanSlip.returnDate);
+      const today = new Date();
+      return today > returnDate;
+    },
+    overdueDays() {
+      if (!this.isOverdue) return 0;
+      const returnDate = new Date(this.loanSlip.returnDate);
+      const today = new Date();
+      const diffTime = Math.abs(today - returnDate);
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    },
+  },
   methods: {
     formatDateTime,
     formatDate,
@@ -171,6 +194,7 @@ export default {
       <div class="col-6 row pe-2">
         <div class="col-7">
           <vue-multiselect
+            v-if="loanSlip.status == LoanSlipStatus.pending.name"
             v-model="selectedStaff"
             :options="staffs"
             :multiple="false"
@@ -186,13 +210,17 @@ export default {
           </vue-multiselect>
         </div>
         <button
+          v-if="
+            loanSlip.status == LoanSlipStatus.pending.name ||
+            loanSlip.status == LoanSlipStatus.approved.name
+          "
           @click="updateLoanSlip"
           type="submit"
           :class="
             'col me-1 btn btn-sm btn-' + LoanSlipStatus[loanSlip.status].color
           "
         >
-          {{ LoanSlipStatus[loanSlip.status].desc }}
+          {{ LoanSlipStatus[loanSlip.status].act }}
         </button>
         <button
           v-if="loanSlip.status == LoanSlipStatus.pending.name"
@@ -202,6 +230,21 @@ export default {
         >
           Từ chối
         </button>
+      </div>
+    </div>
+    <div
+      v-if="isOverdue"
+      class="alert alert-danger d-flex align-items-center shadow-sm"
+      role="alert"
+    >
+      <i class="fa-solid fa-triangle-exclamation fs-4 me-3"></i>
+      <div>
+        <strong
+          >Cảnh báo: Phiếu mượn này đã quá hạn {{ overdueDays }} ngày!</strong
+        >
+        <div class="small">
+          Vui lòng kiểm tra sách trả, tạo phiếu phạt hoặc liên hệ độc giả.
+        </div>
       </div>
     </div>
     <div class="info-user">
@@ -226,7 +269,15 @@ export default {
       </div>
     </div>
     <div class="info-date mt-2">
-      <h5>Thông tin thời gian mượn trả</h5>
+      <h5 class="d-flex align-items-center">
+        Thông tin mượn trả
+        <span
+          v-if="isOverdue"
+          class="badge bg-danger ms-2"
+          style="font-size: 0.8rem"
+          >Quá hạn</span
+        >
+      </h5>
       <hr />
       <div class="row g-3 align-items-center">
         <div class="col-2">
@@ -235,10 +286,35 @@ export default {
           >
         </div>
         <div class="col-sm-8 col-lg-10">
-          {{ loanSlip._id }}
+          {{ loanSlip.loanCode }}
         </div>
       </div>
       <div class="row g-3 align-items-center">
+        <div class="col-2">
+          <label for="inputNote" class="col-form-label fw-bold"
+            >Trạng thái phiếu mượn:</label
+          >
+        </div>
+        <div
+          :class="
+            'col-sm-8 col-lg-10 fw-bold text-' +
+            LoanSlipStatus[loanSlip.status].color
+          "
+        >
+          {{ LoanSlipStatus[loanSlip.status].desc }}
+        </div>
+      </div>
+      <div class="row g-3 align-items-center">
+        <div class="col-2">
+          <label for="inputNote" class="col-form-label fw-bold"
+            >Ngày tạo:</label
+          >
+        </div>
+        <div class="col-sm-8 col-lg-10">
+          {{ formatDateTime(loanSlip.createdAt) }}
+        </div>
+      </div>
+      <div class="row g-3 align-items-center" v-if="loanSlip.borrowedDate">
         <div class="col-2">
           <label for="inputNote" class="col-form-label fw-bold"
             >Ngày mượn:</label
@@ -248,12 +324,27 @@ export default {
           {{ formatDateTime(loanSlip.borrowedDate) }}
         </div>
       </div>
-      <div class="row g-3 align-items-center">
-        <div class="col-2">
-          <label for="inputNote" class="col-form-label fw-bold">Hạn trả:</label>
+      <div
+        v-if="loanSlip.returnDate"
+        class="row g-3 align-items-center p-2 rounded"
+      >
+        <div class="col-2 p-0">
+          <label
+            for="inputNote"
+            class="col-form-label p-0 fw-bold"
+            :class="{ 'text-danger': isOverdue }"
+          >
+            Hạn trả:
+          </label>
         </div>
-        <div class="col-sm-8 col-lg-10">
+        <div
+          class="col-sm-8 col-lg-10 fw-bold ps-1"
+          :class="{ 'text-danger': isOverdue }"
+        >
           {{ formatDate(loanSlip.returnDate) }}
+          <span v-if="isOverdue" class="ms-2 fst-italic">
+            <i class="fa-regular fa-clock me-1"></i>(Trễ {{ overdueDays }} ngày)
+          </span>
         </div>
       </div>
       <div class="row g-3 align-items-center" v-if="loanSlip.returnedDate">

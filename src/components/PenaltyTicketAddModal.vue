@@ -34,6 +34,9 @@ export default {
       amount: 0,
       VND: VND,
       typePenalty: "",
+      PenaltyTicketType: PenaltyTicketType,
+      cntDateLate: 0,
+      configValue: 0,
     };
   },
   watch: {
@@ -98,11 +101,15 @@ export default {
         const date1 = new Date(this.loanSlip.borrowedDate);
         const date2 = new Date(this.loanSlip.returnedDate);
         const cntDate = differenceInDays(date2, date1);
+        this.cntDateLate = cntDate;
         if (config.unit == "%") {
           this.amount =
             this.bookCopy.bookData.price * (config.value / 100) * cntDate;
+          this.configValue =
+            this.bookCopy.bookData.price * (config.value / 100);
         } else if (config.unit == "VND") {
           this.amount = config.value * cntDate;
+          this.configValue = config.value;
         }
       }
     },
@@ -174,7 +181,7 @@ export default {
                       alt="mdo"
                       width="32"
                       height="32"
-                      class="rounded-circle me-2"
+                      class="rounded-circle rounded-circle-avatar-large"
                     />
                   </div>
                   <div class="col">
@@ -188,13 +195,18 @@ export default {
                 <table class="table table-hover">
                   <thead>
                     <tr>
+                      <th scope="col">Mã sách</th>
                       <th scope="col">Tên sách</th>
                       <th scope="col">Barcode</th>
-                      <th scope="col">Ảnh</th>
+                      <th scope="col" class="text-center">Ảnh</th>
+                      <th scope="col">Đơn giá</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr class="book-item" v-if="bookCopy.bookData">
+                      <td>
+                        {{ bookCopy.bookData.code }}
+                      </td>
                       <td>
                         {{ bookCopy.bookData.name }}
                       </td>
@@ -205,22 +217,30 @@ export default {
                         <img
                           :src="bookCopy.bookData.images[0]"
                           width="40"
-                          height="40"
+                          height="60"
+                          class="book-cover"
                         />
                       </td>
+                      <td>{{ VND.format(bookCopy.bookData.price) }}đ</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="info-user mt-2">
                 <span class="fw-bold me-1">Lý do phạt: </span>
-                <span>
-                  {{ LoanDetailStatus[bookCopy.loanDetailStatus]?.desc }}</span
-                >
+                <span> {{ PenaltyTicketType[typePenalty]?.desc }}</span>
               </div>
               <div class="info-user mt-2">
+                <div v-if="typePenalty == PenaltyTicketType.late.name">
+                  <span class="fw-bold me-1">Số ngày trễ: </span>
+                  <span> {{ cntDateLate }}</span>
+                </div>
+                <div v-if="typePenalty == PenaltyTicketType.late.name">
+                  <span class="fw-bold me-1">Tiền phạt / ngày: </span>
+                  <span> {{ VND.format(configValue) }}đ</span>
+                </div>
                 <span class="fw-bold me-1">Tổng tiền phạt: </span>
-                <span> {{ VND.format(amount) }}đ</span>
+                <span class="price fw-bold"> {{ VND.format(amount) }}đ</span>
               </div>
               <div class="info-user mt-2">
                 <div class="row">

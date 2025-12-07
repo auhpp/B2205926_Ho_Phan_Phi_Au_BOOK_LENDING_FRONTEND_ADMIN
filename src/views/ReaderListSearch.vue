@@ -98,7 +98,7 @@ export default {
       <div class="col-4">
         <SearchInput
           :initial-value="currentKeyword"
-          :placeholder="'UserName, SĐT đọc giả ...'"
+          :placeholder="'UserName, SĐT độc giả ...'"
           @submit:query="handleSearch"
         />
       </div>

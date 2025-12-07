@@ -124,6 +124,22 @@ export default {
     updateActiveBook(book) {
       this.$emit("update:active", book);
     },
+
+    allowOnlyNumbers(event) {
+      if (
+        ["Backspace", "Delete", "Tab", "Escape", "Enter"].includes(event.key) ||
+        event.ctrlKey === true ||
+        event.metaKey === true ||
+        ["Home", "End", "ArrowLeft", "ArrowRight"].includes(event.key)
+      ) {
+        return;
+      }
+      if (!/^[0-9]$/.test(event.key)) {
+        event.preventDefault();
+      }
+    },
+
+    
   },
   mounted() {
     this.getAllCategoy();
@@ -170,6 +186,11 @@ export default {
       </template>
     </div>
     <div class="d-flex gap-2">
+      <div class="form-group col">
+        <label for="code">Mã sách</label>
+        <Field name="code" type="text" readonly class="form-control" />
+        <ErrorMessage name="code" class="text-danger" />
+      </div>
       <div class="form-group col-8">
         <label for="name">Tên sách</label>
         <Field name="name" type="text" class="form-control" />
@@ -177,7 +198,13 @@ export default {
       </div>
       <div class="form-group col">
         <label for="price">Giá</label>
-        <Field name="price" type="text" class="form-control" />
+        <Field
+          name="price"
+          type="number"
+          class="form-control"
+          step="1"
+          @keydown="allowOnlyNumbers"
+        />
         <ErrorMessage name="price" class="text-danger" />
       </div>
       <div v-if="!isEditMode" class="form-group col-2">

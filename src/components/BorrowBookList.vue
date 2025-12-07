@@ -25,13 +25,13 @@ export default {
 };
 </script>
 <template>
-   <table class="table table-hover table-display-data">
+  <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
-        <th scope="col">Tên sách</th>
+        <th class="col-3" scope="col">Mã sách</th>
+        <th scope="col" class="col-4">Tên sách</th>
         <th scope="col">Barcode</th>
-        <th scope="col">Ảnh</th>
+        <th scope="col" class="text-center">Ảnh</th>
         <th scope="col" class="text-center">Trạng thái</th>
         <th scope="col" class="text-center">Phiếu phạt</th>
       </tr>
@@ -39,7 +39,7 @@ export default {
     <tbody v-if="books">
       <tr v-for="book in books" :key="book._id" class="book-item">
         <td>
-          {{ book._id }}
+          {{ book.bookData.code }}
         </td>
         <td>
           {{ book.bookData.name }}
@@ -48,7 +48,12 @@ export default {
           {{ book.barCode }}
         </td>
         <td>
-          <img :src="book.bookData.images[0]" width="40" height="40" />
+          <img
+            :src="book.bookData.images[0]"
+            width="40"
+            height="80"
+            class="book-cover"
+          />
         </td>
         <td class="text-center">
           <button
@@ -110,5 +115,9 @@ export default {
 <style>
 .book-item {
   cursor: pointer;
+}
+
+.book-cover {
+  object-fit: contain;
 }
 </style>

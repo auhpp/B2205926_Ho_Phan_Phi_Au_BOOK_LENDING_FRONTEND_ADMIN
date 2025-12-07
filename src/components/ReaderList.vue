@@ -26,9 +26,9 @@ export default {
   <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
-        <th scope="col" class="col-1">Avatar</th>
+        <th class="col-3" scope="col">Mã ĐG</th>
         <th scope="col" class="col-6">Username</th>
+        <th scope="col" class="col-1">Avatar</th>
         <th scope="col">Email</th>
         <th scope="col">SĐT</th>
         <th scope="col">Trạng thái</th>
@@ -37,7 +37,10 @@ export default {
     <tbody>
       <tr v-for="reader in readers" :key="reader._id" class="book-item">
         <td>
-          {{ reader._id }}
+          {{ reader.code }}
+        </td>
+        <td>
+          {{ reader.userName }}
         </td>
         <td class="text-center">
           <img
@@ -50,9 +53,7 @@ export default {
             class="rounded-circle-avatar rounded-circle me-1"
           />
         </td>
-        <td>
-          {{ reader.userName }}
-        </td>
+
         <td>
           {{ reader.email }}
         </td>

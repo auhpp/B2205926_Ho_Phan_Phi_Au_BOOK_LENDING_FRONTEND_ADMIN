@@ -21,6 +21,19 @@ export default {
     submitBookCopy() {
       this.$emit("submit:bookCopy", this.quantity);
     },
+    allowOnlyNumbers(event) {
+      if (
+        ["Backspace", "Delete", "Tab", "Escape", "Enter"].includes(event.key) ||
+        event.ctrlKey === true ||
+        event.metaKey === true ||
+        ["Home", "End", "ArrowLeft", "ArrowRight"].includes(event.key)
+      ) {
+        return;
+      }
+      if (!/^[0-9]$/.test(event.key)) {
+        event.preventDefault();
+      }
+    },
   },
 };
 </script>
@@ -65,6 +78,7 @@ export default {
                   v-model="quantity"
                   type="number"
                   class="form-control"
+                  @keydown="allowOnlyNumbers"
                 />
                 <ErrorMessage name="quantity" class="text-danger" />
               </div>

@@ -21,7 +21,7 @@ export default {
   <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
+        <th class="col-3" scope="col">Mã tác giả</th>
         <th scope="col">Tên danh mục</th>
         <th scope="col" class="text-center">Thao tác</th>
       </tr>
@@ -29,7 +29,7 @@ export default {
     <tbody>
       <tr v-for="author in authors" :key="author._id" class="book-item">
         <td>
-          {{ author._id }}
+          {{ author.code }}
         </td>
         <td>
           {{ author.name }}

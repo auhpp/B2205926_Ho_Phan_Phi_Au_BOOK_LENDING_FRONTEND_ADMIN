@@ -23,7 +23,7 @@ export default {
   <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-2" scope="col">ID</th>
+        <th class="col-2" scope="col">Mã sách</th>
         <th scope="col">Tên sách</th>
         <th scope="col" class="text-center">Số lượng bản sao</th>
         <th scope="col" class="text-center">Số lượng sẵn dùng</th>
@@ -40,7 +40,7 @@ export default {
         class="book-item"
       >
         <td>
-          {{ book._id }}
+          {{ book.code }}
         </td>
         <td class="col-4">
           {{ book.name }}
@@ -52,7 +52,12 @@ export default {
           {{ book.availableCopyCount }}
         </td>
         <td>
-          <img :src="book.images[0]" width="40" height="40" />
+          <img
+            :src="book.images[0]"
+            width="40"
+            height="60"
+            class="book-cover"
+          />
         </td>
         <td>
           {{ VND.format(book.price) }}

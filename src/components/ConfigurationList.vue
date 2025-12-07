@@ -15,7 +15,7 @@ export default {
   <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
+        <th class="col-3" scope="col">Mã cấu hình</th>
         <th scope="col">Tên cấu hình</th>
         <th scope="col">Giá trị</th>
         <th scope="col" class="text-center">Thao tác</th>
@@ -28,7 +28,7 @@ export default {
         class="book-item"
       >
         <td>
-          {{ configuration._id }}
+          {{ configuration.code }}
         </td>
         <td>
           {{ configuration.description }}

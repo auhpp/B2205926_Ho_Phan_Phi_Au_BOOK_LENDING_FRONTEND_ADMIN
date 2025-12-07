@@ -21,8 +21,8 @@ export default {
   <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
-        <th scope="col">Tên danh mục</th>
+        <th class="col-3" scope="col">Mã NXB</th>
+        <th scope="col">Tên nhà xuất bản</th>
         <th scope="col" class="text-center">Thao tác</th>
       </tr>
     </thead>
@@ -33,7 +33,7 @@ export default {
         class="book-item"
       >
         <td>
-          {{ publisher._id }}
+          {{ publisher.code }}
         </td>
         <td>
           {{ publisher.name }}

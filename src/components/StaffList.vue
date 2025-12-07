@@ -25,9 +25,9 @@ export default {
   <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
-        <th scope="col" class="col-1">Avatar</th>
+        <th class="col-3" scope="col">MÃ NV</th>
         <th scope="col" class="col-6">Username</th>
+        <th scope="col" class="col-1">Avatar</th>
         <th scope="col" class="col-6">SĐT</th>
         <th scope="col">Email</th>
         <th scope="col">Trạng thái</th>
@@ -36,7 +36,10 @@ export default {
     <tbody>
       <tr v-for="staff in staffs" :key="staff._id" class="book-item">
         <td>
-          {{ staff._id }}
+          {{ staff.code }}
+        </td>
+        <td>
+          {{ staff.userName }}
         </td>
         <td>
           <img
@@ -49,9 +52,7 @@ export default {
             class="rounded-circle-avatar rounded-circle me-1"
           />
         </td>
-        <td>
-          {{ staff.userName }}
-        </td>
+
         <td>
           {{ staff.phoneNumber }}
         </td>

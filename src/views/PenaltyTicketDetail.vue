@@ -87,7 +87,7 @@ export default {
         @click="this.$router.back()"
       ></i>
       <div
-        class="col-3 row pe-2"
+        class="col-4 row pe-2"
         v-if="penaltyTicketDetail.paymentStatus == PaymentStatus.NOT_PAID.name"
       >
         <button
@@ -95,7 +95,7 @@ export default {
           class="col me-1 btn btn-sm btn-danger"
           @click="payPenaltyTicket"
         >
-          Thanh toán
+          Xác nhận đã thanh toán
         </button>
         <button
           type="submit"
@@ -139,7 +139,7 @@ export default {
         </div>
         <div class="col-sm-8 col-lg-10">
           <div class="">
-            {{ penaltyTicketDetail._id }}
+            {{ penaltyTicketDetail.code }}
           </div>
         </div>
       </div>
@@ -160,7 +160,7 @@ export default {
               })
             "
           >
-            {{ penaltyTicketDetail.loanSlipId }}
+            {{ penaltyTicketDetail.loanSlipCode }}
           </div>
         </div>
       </div>
@@ -236,9 +236,10 @@ export default {
       <table class="table table-hover table-display-data">
         <thead class="table-head">
           <tr>
+            <th scope="col">Mã sách</th>
             <th scope="col">Tên sách</th>
             <th scope="col">Barcode</th>
-            <th scope="col">Ảnh</th>
+            <th scope="col" class="text-center">Ảnh</th>
             <th scope="col">Giá</th>
           </tr>
         </thead>
@@ -247,6 +248,9 @@ export default {
             class="book-item"
             v-if="penaltyTicketDetail.bookCopy && penaltyTicketDetail.book"
           >
+            <td>
+              {{ penaltyTicketDetail.book.code }}
+            </td>
             <td>
               {{ penaltyTicketDetail.book.name }}
             </td>
@@ -257,7 +261,8 @@ export default {
               <img
                 :src="penaltyTicketDetail.book.images[0]"
                 width="40"
-                height="40"
+                height="80"
+                class="book-cover"
               />
             </td>
             <td>{{ VND.format(penaltyTicketDetail.book.price) }} đ</td>
@@ -273,7 +278,7 @@ export default {
     </div>
     <div class="info-user mt-2 mb-4">
       <span class="fw-bold me-1">Tổng tiền phạt: </span>
-      <span> {{ VND.format(penaltyTicketDetail.amount) }}đ</span>
+      <span class="fw-bold price"> {{ VND.format(penaltyTicketDetail.amount) }}đ</span>
     </div>
   </div>
 </template>

@@ -27,6 +27,19 @@ export default {
         id: this.configuration._id,
       });
     },
+    allowOnlyNumbers(event) {
+      if (
+        ["Backspace", "Delete", "Tab", "Escape", "Enter"].includes(event.key) ||
+        event.ctrlKey === true ||
+        event.metaKey === true ||
+        ["Home", "End", "ArrowLeft", "ArrowRight"].includes(event.key)
+      ) {
+        return;
+      }
+      if (!/^[0-9]$/.test(event.key)) {
+        event.preventDefault();
+      }
+    },
   },
 };
 </script>
@@ -74,7 +87,12 @@ export default {
                 <label for="value">Giá trị</label>
 
                 <div class="input-group mb-3">
-                  <Field name="value" type="text" class="form-control mb-4" />
+                  <Field
+                    name="value"
+                    type="number"
+                    class="form-control mb-4"
+                    @keydown="allowOnlyNumbers"
+                  />
                   <div class="input-group-append">
                     <span
                       class="input-group-text"

@@ -36,7 +36,7 @@ export default {
   <table class="table table-hover table-display-data">
     <thead class="table-head">
       <tr>
-        <th class="col-3" scope="col">ID</th>
+        <!-- <th class="col-3" scope="col">ID</th> -->
         <th scope="col">Mã vạch</th>
         <th scope="col">Trạng thái</th>
         <th scope="col" class="text-center">Thao tác</th>
@@ -49,9 +49,9 @@ export default {
         @click="navigateToBookEdit(bookCopy._id)"
         class="book-item"
       >
-        <td>
+        <!-- <td>
           {{ bookCopy._id }}
-        </td>
+        </td> -->
         <td>
           {{ bookCopy.barCode }}
         </td>
