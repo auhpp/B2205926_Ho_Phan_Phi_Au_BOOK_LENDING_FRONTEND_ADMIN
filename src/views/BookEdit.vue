@@ -96,7 +96,7 @@ export default {
           this.isLoading = true;
           await bookService.delete(this.book._id);
           alert("Sách được xóa thành công.");
-          this.$router.back();
+          this.$router.push({ name: "books" });
         } catch (error) {
           alert("Sách đã được đưa vào sử dụng không thể xóa");
         } finally {

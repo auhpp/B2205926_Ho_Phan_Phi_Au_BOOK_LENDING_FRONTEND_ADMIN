@@ -138,8 +138,6 @@ export default {
         event.preventDefault();
       }
     },
-
-    
   },
   mounted() {
     this.getAllCategoy();
@@ -186,7 +184,7 @@ export default {
       </template>
     </div>
     <div class="d-flex gap-2">
-      <div class="form-group col">
+      <div class="form-group col" v-if="isEditMode">
         <label for="code">Mã sách</label>
         <Field name="code" type="text" readonly class="form-control" />
         <ErrorMessage name="code" class="text-danger" />
