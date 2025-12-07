@@ -64,7 +64,8 @@ export default {
             data-bs-toggle="modal"
             :data-bs-target="
               status != LoanSlipStatus.pending.name &&
-              status != LoanSlipStatus.approved.name
+              status != LoanSlipStatus.approved.name &&
+              status != LoanSlipStatus.rejected.name
                 ? '#updateStateBookCopyModal'
                 : ''
             "
